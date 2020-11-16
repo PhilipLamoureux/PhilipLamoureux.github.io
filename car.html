@@ -1,0 +1,2206 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Google Sans',Arial,sans-serif;
+      margin: 0;
+      display: block;
+    }
+    button {
+      font-size: 11pt;
+      background-color: #1a73e8;
+      border:none;
+      padding: 14px 25px;
+      display: inline-block;
+      border-radius: 5px;
+      color:white;
+    }
+    div{
+      display: block;
+    }
+    .color-picker-container {
+        position: absolute;
+        top: 48px;
+        right: 8px;
+        bottom: 0;
+        left: 8px;
+        overflow-y: auto;
+    }
+    .model_header{
+      font-size: 22px;
+      color: #202124;
+      margin-left: 20px;
+      word-break: break-word;
+      line-height: 1.33;
+      max-height: 2.66em;
+      margin-top: 3px;
+      overflow: hidden;
+      font-weight: medium;
+    }
+    .color-name {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .color-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px 12px 16px;
+        font-size: 14px;
+        line-height: 28px;
+    }
+    .color-picker-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .color-picker-title {
+      font-family: Roboto,Arial,sans-serif;
+      font-size: 15px;
+      line-height: 18px;
+      margin-left: 66px;
+      padding: 20px 0 10px 0;
+    }
+    .color-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px 12px 16px;
+      font-size: 14px;
+      line-height: 28px;
+    }
+    .modal {
+      overflow: hidden;
+      transition: height .3s ease-in-out;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px 1px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
+      height: 200px;
+      margin: 4px;
+    }
+    .modal-close-button {
+      position: absolute;
+      left: 27px;
+      top: 19px;
+      background-color: white;
+      width: 24px;
+      height: 24px;
+    }
+    .materialdesignWizIconSvgsSvgIcon {
+      position: relative;
+      left: 0;
+      top: 0;
+    }
+    .color-button{
+      border: 1px solid #ccc;
+      border-radius: 24px;
+      height: 24px;
+      width: 24px;
+      min-width: 24px;
+      margin-right: 16px;
+      background: linear-gradient(180deg,rgba(34,34,34,0.64) 10%,rgba(69,69,69,0.33) 44%,rgba(209,209,209,0.35) 57%,rgba(253,253,253,0.6) 67%,rgba(193,193,193,0.11) 83%,rgba(31,31,31,0.38) 94%);
+    }
+    .hdri-button{
+      border: 1px solid #ccc;
+      border-radius: 24px;
+      height: 24px;
+      width: 24px;
+      min-width: 24px;
+      margin-right: 16px;
+      background: #fff;
+    }
+    .carousel {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      width: 100%;
+      height: 100%;
+      padding: 2px 0 0 16px;
+    }
+    .carousel-frame {
+        overflow: hidden;
+        transition: height .3s ease-in-out;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px 1px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
+        height: 184px;
+        padding: 0 0 16px 0;
+        margin: 4px;
+    }
+    .carousel-title {
+        font-family: Roboto,Arial,sans-serif;
+        font-weight: medium;
+        font-size: 11px;
+        line-height: 16px;
+        letter-spacing: 0.8px;
+        color: #000;
+        text-transform: uppercase;
+        margin: 16px 0 16px 16px;
+    }
+    .carousel-scroll {
+        width: 100%;
+        height: 100%;
+    }
+    .carousel-item>img {
+        max-width: 108px;
+        max-height: 82px;
+        width: auto;
+        height: auto;
+        margin: 12px auto;
+    }
+    .carousel-item {
+        position: relative;
+        background-color: #fff;
+        border-radius: 8px;
+        height: 132px;
+        width: 132px;
+        margin: 0 4px 0 4px;
+        padding: 0 12px 10px 12px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        box-sizing: border-box;
+        box-shadow: 0 1px 3px 1px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
+    }
+    .bg-carousel-item>img {
+        max-width: 135px;
+        max-height: 100px;
+        width: auto;
+        height: auto;
+        margin: 0;
+    }
+    .bg-carousel-item {
+        position: relative;
+        background-color: #fff;
+        border-radius: 8px;
+        height: 132px;
+        width: 132px;
+        margin: 0 4px 0 4px;
+        padding: 0 0 10px 0;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        box-sizing: border-box;
+        box-shadow: 0 1px 3px 1px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
+    }
+    .bg-carousel-item-info {
+        color: #7f868c;
+        font-size: 12px;
+        padding: 0 0 0 12px;
+    }
+    .selected {
+        border-bottom: 4px solid #1a73e8;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+    .bg-selected {
+        border-bottom: 4px solid #1a73e8;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+    .color-selected {
+        background-color: #f5f9ff;
+    }
+    .carousel-item-info {
+        color: #7f868c;
+        font-size: 12px;
+    }
+    .carousel-item-title {
+        font-family: Roboto,Arial,sans-serif;
+        color: #000;
+        font-size: 12px;
+        line-height: 16px;
+        max-height: 32px;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body>
+<div class="carousel-frame" style="display:all;" id="carousel">
+  <div class="carousel-title" id="test">Similar cars in 3D</div>
+  <div class="carousel-scroll">
+    <div class="carousel" id="carousel-container"></div>
+   </div>
+</div>
+<div id="bg-picker" class="modal" style="display:none;">
+  <div class="color-picker-wrapper">
+      <div class="modal-close-button" id="close-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" focusable="false" class="materialdesignWizIconSvgsSvgIcon">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path>
+        </svg>
+      </div>
+      <div class="color-picker-title">Change Background</div>
+      <div class="carousel-scroll">
+        <div class="carousel">
+          <div class="bg-carousel-item" id="ar-btn" style="display: none;">
+            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/ar_bg.png" alt="Your space">
+            <div class="bg-carousel-item-info">
+              <div class="carousel-item-title">Your space</div>
+          </div>
+        </div>
+          <div class="bg-carousel-item" id="studio-btn">
+            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/studio_bg.png" alt="Studio background">
+            <div class="bg-carousel-item-info">
+              <div class="carousel-item-title">Studio</div>
+            </div>
+          </div>
+          <div class="bg-carousel-item" id="city-park-btn">
+            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/city_park_bg.png" alt="City Park background">
+            <div class="bg-carousel-item-info">
+              <div class="carousel-item-title">City Park</div>
+            </div>
+          </div>
+          <div class="bg-carousel-item" id="highway-btn">
+            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/highway_bg.png" alt="Scenic Highway background">
+            <div class="bg-carousel-item-info">
+              <div class="carousel-item-title">Scenic Highway</div>
+            </div>
+          </div>
+          <div class="bg-carousel-item" id="quarry-btn">
+            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/outdoors_bg.png" alt="Quarry Sunset background">
+            <div class="bg-carousel-item-info">
+              <div class="carousel-item-title">Quarry Sunset</div>
+            </div>
+          </div>
+          <div class="bg-carousel-item" id="rooftop-btn">
+            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/rooftop_bg.png" alt="Rooftop Garage background">
+            <div class="bg-carousel-item-info">
+              <div class="carousel-item-title" id="test">Rooftop Garage</div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div id="color-picker" hidden class="modal" style="display:none;">
+  <div class="color-picker-wrapper">
+      <div class="modal-close-button" id="close-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" focusable="false" class="materialdesignWizIconSvgsSvgIcon">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path>
+        </svg>
+      </div>
+      <div class="color-picker-title">Available Colors</div>
+      <div id="color-pickers"></div>
+  </div>
+</div>
+<script>
+const cars = {
+  'gyxxVG2b8n2EEPk92HiJifX': [
+    '2020 Toyota Corolla',
+    [
+      'Barcelona Red Metallic', '70010D', 'Black Sand Pearl', '141515',
+      'Blizzard Pearl', 'DEDED2', 'Blue Crush Metallic', '24306A', 'Blueprint',
+      '1F2B58', 'Celestite', '718986', 'Classic Silver Metallic', 'BEBFBC',
+      'Super White', 'FBFAF9'
+    ]
+  ],
+  'nSwaSXiC5QUQ2xUMzuzWbwa': [
+    '2020 Land Rover Range Rover Velar',
+    [
+      'Aruba Premium Metallic',
+      '7A7972',
+      'Byron Blue Metallic',
+      '575E6E',
+      'Eiger Gray Metallic',
+      '5B5C56',
+      'Firenze Red Metallic',
+      '6C0F18',
+      'Fuji White',
+      'E3E8E2',
+      'Indus Silver Metallic',
+      'BCBEBE',
+      'Kaikoura Stone Metallic',
+      '5E5248',
+      'Narvik Black',
+      '171719',
+      'Santorini Black Metallic',
+      '191A1C',
+      'Silicon Silver Premium Metallic',
+      '78756D',
+      'Yulong White Metallic',
+      'CDCFD0'
+    ]
+  ],
+  'd6c40cd4LyMveI1QBejUJif': [
+    '2020 Chevrolet Tahoe',
+    [
+      'Black',
+      '0A0A0A',
+      'Black Cherry Metallic',
+      '2B1015',
+      'Blue Velvet Metallic',
+      '0F1829',
+      'Iridescent Pearl Tricoat',
+      'D7D8CE',
+      'Satin Steel Metallic',
+      '757879',
+      'Shadow Gray Metallic',
+      '323533',
+      'Silver Ice Metallic',
+      'C1C2C6',
+      'Siren Red Tintcoat',
+      '4F0615',
+      'Summit White',
+      'F9F9F9',
+      'Wheatland Yellow',
+      'EDB100',
+      'Woodland Green',
+      '0F2A22'
+    ]
+  ],
+  '4BjjlIS8xSxGkS0r08DcegK': [
+    '2020 BMW X1',
+    [
+      'Alpine White',
+      'E9EEE8',
+      'Black Sapphire Metallic',
+      '121212',
+      'Dark Olive Metallic',
+      '3D3929',
+      'Glacier Silver Metallic',
+      'ADB0B1',
+      'Jet Black',
+      '000000',
+      'Jucaro Beige Metallic',
+      '64574E',
+      'Mediterranean Blue Metallic',
+      '091C36',
+      'Mineral Gray Metallic',
+      '515254',
+      'Mineral White Metallic',
+      'CACACA',
+      'Misano Blue Metallic',
+      '3366F6',
+      'Sparkling Brown Metallic',
+      '251B16',
+      'Storm Bay Metallic',
+      '586371',
+      'Sunset Orange Metallic',
+      'BC3B1B'
+    ]
+  ],
+  'wESRihnCZh872GzCSWh6lbH': [
+    '2020 Hyundai Kona',
+    [
+      'Chalk White',
+      'EAEAEA',
+      'Lime Twist',
+      '63A202',
+      'Pulse Red',
+      '76111F',
+      'Pulse Red w/Black Roof',
+      '70000D',
+      'Sonic Silver',
+      '676868',
+      'Sonic Silver w/Black Roof',
+      'D4D7D5',
+      'Sunset Orange',
+      'D91416',
+      'Surf Blue',
+      '10354F',
+      'Thunder Gray',
+      '36383C',
+      'Ultra Black',
+      '101010'
+    ]
+  ],
+  'gMHXJfRH3rEbRmUfAmigm2E': [
+    '2020 Ford Ranger',
+    [
+      'Iconic Silver Metallic', 'C5C5CB', 'Lightning Blue Metallic', '1C3D58',
+      'Magnetic Metallic', '454744', 'Oxford White', 'E7E7E5', 'Race Red',
+      'AC2035', 'Rapid Red Metallic Tinted Clearcoat', 'A01234',
+      'Saber Metallic', '995609', 'Shadow Black', '0A0A0C',
+      'White Platinum Metallic Tri-Coat', 'D2CECE'
+    ]
+  ],
+  'zhAHuY3LxGnF7daFJ7H2CVy': [
+    '2020 Lexus LX',
+    [
+      'Atomic Silver', '67625D', 'Black Onyx', '000000', 'Eminent White Pearl',
+      'D7D4CC', 'Nebula Gray Pearl', '3C3D3E', 'Nightfall Mica', '1677AC',
+      'Satin Cashmere Metallic', '9B9778'
+    ]
+  ],
+  '2mIgBB36Q5X4Uac0eOUx1Mb': [
+    '2020 Volkswagen Tiguan',
+    [
+      'Cardinal Red Metallic', '5B000F', 'Deep Black Pearl', '17191D',
+      'Platinum Gray Metallic', '4C4E4D', 'Pure White', 'E9EAE5',
+      'Pyrite Silver Metallic', 'ABAAA4', 'Silk Blue Metallic', '253646',
+      'Stone Blue Metallic', '6E899C'
+    ]
+  ],
+  'sKxjhbGQuHJDB6RSDAi5yfg': [
+    '2020 Mercedes-Benz G-Class',
+    [
+      'Black',
+      '0A0A0B',
+      'Brilliant Blue Metallic',
+      '0C1D38',
+      'Dakota Brown Metallic',
+      '2A1D1A',
+      'Designo Cardinal Red Metallic',
+      '560012',
+      'Designo Diamond White Metallic',
+      'EEEAD9',
+      'Designo Graphite Metallic',
+      '4D4E4D',
+      'Designo Mocha Black Metallic',
+      '161415',
+      'Designo Mystic Blue Metallic',
+      '092844',
+      'Designo Mystic Brown Metallic',
+      '1F100D',
+      'Designo Night Black Magno',
+      '1C1C1A',
+      'Designo Platinum Black Metallic',
+      '100F0F',
+      'Designo Platinum Magno',
+      '8D8B8C',
+      'Emerald Green Metallic',
+      '0C1914',
+      'G  manufaktur Sintered Bronze magno',
+      '25282C',
+      'G Manufaktur Midnight Blue',
+      '1D2437',
+      'G manufaktur Dakota Brown magno',
+      '322926',
+      'G manufaktur Dark Olive Green magno',
+      '1E2925',
+      'G manufaktur Desert Sand',
+      '25201F',
+      'G manufaktur Desert Silver Metallic',
+      'C9C3B9',
+      'G manufaktur Jupiter Red',
+      '770E23',
+      'G manufaktur Olive Metallic',
+      '343923',
+      'G manufaktur Sea Blue Metallic',
+      '0A272C',
+      'G manufaktur South Sea Blue Metallic',
+      '195288',
+      'Indium Gray Metallic',
+      '5A574C',
+      'Iridium Silver Metallic',
+      'C9CDCE',
+      'Jade Green Metallic',
+      '2A4138',
+      'Lunar Blue Metallic',
+      '111622',
+      'Magnetite Black Metallic',
+      '060606',
+      'Obsidian Black Metallic',
+      '0E0E0E',
+      'Polar White',
+      'DBDAD4',
+      'Rubellite Red Metallic',
+      '5C000F',
+      'Selenite Gray Metallic',
+      '363938'
+    ]
+  ],
+  '6BtpmykaC6PoJo5RiROF7z2': [
+    '2020 Audi A4',
+    [
+      'Brilliant Black',
+      '0C0C0C',
+      'Daytona Gray Pearl Effect',
+      '464844',
+      'Florett Silver Metallic',
+      'B2B1B1',
+      'Glacier White Metallic',
+      'D7D7D6',
+      'Ibis White',
+      'EAEAE8',
+      'Manhattan Gray Metallic',
+      '242424',
+      'Mythos Black Metallic',
+      '0B0D0C',
+      'Navarra Blue Metallic',
+      '0B1B40',
+      'Tango Red Metallic',
+      '760216',
+      'Terra Gray Metallic',
+      '5B554E',
+      'Turbo Blue',
+      '084EA6'
+    ]
+  ],
+  'dg1cC4RPmR8dl9Q3j1oTxDf': [
+    '2020 Audi Q5',
+    [
+      'Azores Green Metallic',
+      '1A3C25',
+      'Brilliant Black',
+      '0C0C0C',
+      'Daytona Gray Pearl Effect',
+      '464844',
+      'Florett Silver Metallic',
+      'B2B1B1',
+      'Glacier White Metallic',
+      'D7D7D6',
+      'Ibis White',
+      'EAEAE8',
+      'Java Brown Metallic',
+      '352422',
+      'Manhattan Gray Metallic',
+      '242424',
+      'Matador Red Metallic',
+      '6F0016',
+      'Monsoon Gray Metallic',
+      '626866',
+      'Moonlight Blue Metallic',
+      '191D29',
+      'Mythos Black Metallic',
+      '0B0D0C',
+      'Navarra Blue Metallic',
+      '0B1B40'
+    ]
+  ],
+  '7TzPL5dft68XBA2mJadKHce': [
+    '2020 Honda Accord',
+    [
+      'Champagne Frost Pearl', 'A8A495', 'Crystal Black Pearl', '1D1D1D',
+      'Lunar Silver Metallic', 'A0A0A0', 'Modern Steel Metallic', '403F3F',
+      'Obsidian Blue Pearl', '121E2C', 'Platinum White Pearl', 'E0DDD4',
+      'Radiant Red Metallic', '990019', 'San Marino Red', '530117',
+      'Still Night Pearl', '2B3271'
+    ]
+  ],
+  'VamB43rMNkQYjKvW5W5RLjB': [
+    '2020 INFINITI Q50',
+    [
+      'Black Obsidian',  '050505', 'Dynamic Sunstone Red', '830421',
+      'Graphite Shadow', '373837', 'Hagane Blue',          '95A0A6',
+      'Iridium Blue',    '141F3E', 'Liquid Platinum',      'BCBCBC',
+      'Majestic White',  'EDE9D9', 'Midnight Black',       '08090B',
+      'Mocha Almond',    '38211B', 'Pure White',           'E7E7E5'
+    ]
+  ],
+  'H6W5fO5iNGmkeYwFcWE0GaL': [
+    '2020 Lexus LS',
+    [
+      'Atomic Silver',
+      '67625D',
+      'Caviar',
+      '1A1A1F',
+      'Deep Garnet',
+      '49010F',
+      'Eminent White Pearl',
+      'D7D4CC',
+      'Liquid Platinum',
+      'D6D8D9',
+      'Manganese Luster',
+      '4C4C48',
+      'Matador Red Mica',
+      '4B060E',
+      'Nightfall Mica',
+      '1677AC',
+      'Obsidian',
+      '000000',
+      'Satin Cashmere Metallic',
+      '9B9778',
+      'Ultra White',
+      'EAEEF2'
+    ]
+  ],
+  'Vl5MQUFXvmCUId0QtUYvraM': [
+    '2020 Lexus ES',
+    [
+      'Atomic Silver',
+      '67625D',
+      'Caviar',
+      '1A1A1F',
+      'Eminent White Pearl',
+      'D7D4CC',
+      'Matador Red Mica',
+      '4B060E',
+      'Moonbeam Beige Metallic',
+      'A69E95',
+      'Nebula Gray Pearl',
+      '3C3D3E',
+      'Nightfall Mica',
+      '1677AC',
+      'Obsidian',
+      '000000',
+      'Silver Lining Metallic',
+      'A6ADAF',
+      'Sunlit Green',
+      'A6AB38',
+      'Ultra White',
+      'EAEEF2',
+      'Ultrasonic Blue Mica 2.0',
+      '182844'
+    ]
+  ],
+  'UT25JKtjZMcNdwq6fR6sXcc': [
+    '2020 BMW M2',
+    [
+      'Alpine White', 'E9EEE8', 'Black Sapphire Metallic', '121212',
+      'Hockenheim Silver Metallic', 'A3A3A3', 'Long Beach Blue Metallic',
+      '015963', 'Sunset Orange Metallic', 'BC3B1B'
+    ]
+  ],
+  'AiMfCb1tpyoIBATxkbQUnY5': [
+    '2020 BMW 3 Series',
+    [
+      'Alpine White',
+      'E9EEE8',
+      'Black Sapphire Metallic',
+      '121212',
+      'Blue Ridge Mountain Metallic',
+      '01308B',
+      'Glacier Silver Metallic',
+      'ADB0B1',
+      'Jet Black',
+      '000000',
+      'Mediterranean Blue Metallic',
+      '091C36',
+      'Melbourne Red Metallic',
+      '57111A',
+      'Mineral Gray Metallic',
+      '515254',
+      'Mineral White Metallic',
+      'CACACA',
+      'Portimao Blue Metallic',
+      '28488C',
+      'Sunset Orange Metallic',
+      'BC3B1B',
+      'Vermont Bronze Metallic',
+      '554539'
+    ]
+  ],
+  'ZsKQhfMNeiRD52Wu9cKKxqB': [
+    '2020 Jeep Compass',
+    [
+      'Billet Silver Metallic Clearcoat',
+      '838587',
+      'Diamond Black Crystal Pearlcoat',
+      '0B0B0B',
+      'Granite Crystal Metallic Clearcoat',
+      '4A4645',
+      'Jazz Blue Pearlcoat',
+      '030D1B',
+      'Laser Blue Pearlcoat',
+      '0A4B70',
+      'Olive Green Pearlcoat',
+      '383B2F',
+      'Pearl White Tri-Coat/Black Clearcoat',
+      'D7D1BD',
+      'Redline Pearlcoat',
+      '6A0012',
+      'Spitfire Orange Clearcoat',
+      'C0141C',
+      'Sting-Gray Clearcoat/Black Clearcoat',
+      '5D5D5D',
+      'Velvet Red Pearlcoat',
+      '31010D',
+      'White Clearcoat',
+      'F1EDE3'
+    ]
+  ],
+  '9vB97Dt7W7gLQhuRpOBQs0D': [
+    '2020 Mitsubishi Eclipse Cross',
+    [
+      'Alloy Silver Metallic', '959595', 'Bronze Metallic', '896C58',
+      'Mercury Gray Metallic', '5E5C5A', 'Octane Blue Metallic', '035D96',
+      'Pearl White', 'FFFFFF', 'Red Diamond', 'AC1E2E', 'Tarmac Black Metallic',
+      '161616'
+    ]
+  ],
+  'ZMf1KfxkXHYN54CmBnKRvC7': [
+    '2020 Hyundai Santa Fe',
+    [
+      'Calypso Red',
+      'A52331',
+      'Earthy Bronze',
+      '3E3733',
+      'Lava Orange',
+      'AB370F',
+      'Machine Gray',
+      '666666',
+      'Portofino Gray',
+      '43454A',
+      'Quartz White',
+      'FDFBFB',
+      'Rainforest',
+      '424948',
+      'Scarlet Red',
+      '70000D',
+      'Shimmering Silver Pearl',
+      '757C82',
+      'Stormy Sea',
+      '172744',
+      'Symphony Silver',
+      'ADADB0',
+      'Twilight Black',
+      '121114'
+    ]
+  ],
+  'oZPq5jiSzNvS70uMg8wwcfA': [
+    '2020 Maserati Levante',
+    [
+      'Bianco',
+      'E3E3E2',
+      'Bianco Alpi Tri-Coat',
+      'B7B9B8',
+      'Blu Nobile Tri-Coat',
+      '122463',
+      'Blu Passione Mica',
+      '100D35',
+      'Champagne Metallescent',
+      'A8978B',
+      'Grigio Maratea Metallescent',
+      '343436',
+      'Grigio Metallic',
+      '51555A',
+      'Grigio Metallo Metallic',
+      'B9B9B9',
+      'Nero',
+      '000000',
+      'Nero Ribelle Mica',
+      '232629',
+      'Rame Mica',
+      '2F160C',
+      'Rosso Rubino Mica',
+      '431F1F',
+      'Verde Ossido Metallic',
+      '2E342B'
+    ]
+  ],
+  'Nm7Or0NC4UMrlJ70DPU4MSC': [
+    '2020 BMW X6',
+    [
+      'Alpine White',
+      'E9EEE8',
+      'Ametrin Metallic',
+      '45172B',
+      'Arctic Gray Metallic',
+      '2D2E31',
+      'Black Sapphire Metallic',
+      '121212',
+      'Carbon Black Metallic',
+      '13181C',
+      'Dark Graphite Metallic',
+      '2D2D2D',
+      'Flamenco Red Metallic',
+      '64091A',
+      'Jet Black',
+      '000000',
+      'Manhattan Green Metallic',
+      '625C4F',
+      'Mineral White Metallic',
+      'CACACA',
+      'Riverside Blue Metallic',
+      '496DAC',
+      'Tanzanite Blue II Metallic',
+      '01091D'
+    ]
+  ],
+  'Jnx1x1nNAgse6HXqE5zKq3h': [
+    '2020 Lincoln Navigator',
+    [
+      'Blue Diamond',       '3C5571', 'Burgundy Velvet',     '300205',
+      'Ceramic Pearl',      'ECEAE9', 'Chroma Crystal Blue', '8EA0B5',
+      'Chroma Molten Gold', '867267', 'Iced Mocha',          'A19181',
+      'Infinite Black',     '0A0A0C', 'Pristine White',      'E4E4E3',
+      'Red Carpet',         'A01234', 'Rhapsody Blue',       '071017',
+      'Silver Jade',        '646463', 'Silver Radiance',     'C5C5CB'
+    ]
+  ],
+  'HchdKUvTStirvyHw7HDPBvN': [
+    '2020 Lexus UX',
+    [
+      'Atomic Silver',
+      '67625D',
+      'Autumn Shimmer',
+      '3B1F10',
+      'Cadmium Orange',
+      '6E2715',
+      'Caviar',
+      '1A1A1F',
+      'Eminent White Pearl',
+      'D7D4CC',
+      'Nebula Gray Pearl',
+      '3C3D3E',
+      'Nori Green Pearl',
+      '1F2E1E',
+      'Obsidian',
+      '000000',
+      'Redline',
+      '740417',
+      'Silver Lining Metallic',
+      'A6ADAF',
+      'Ultra White',
+      'EAEEF2',
+      'Ultrasonic Blue Mica 2.0',
+      '182844'
+    ]
+  ],
+  'cQOhaN1SB9imaxLAnbGSwnq': [
+    '2020 INFINITI QX50',
+    [
+      'Black Obsidian', '050505', 'Dynamic Sunstone Red', '830421',
+      'Graphite Shadow', '373837', 'Hermosa Blue', '1A2227', 'Liquid Platinum',
+      'BCBCBC', 'Lunar White', 'F5F5EC', 'Majestic White', 'EDE9D9',
+      'Mocha Almond', '38211B'
+    ]
+  ],
+  'QZR4kOuh3EnoWXwed1JeLa4': [
+    '2020 BMW 4 Series',
+    [
+      'Alpine White',
+      'E9EEE8',
+      'Black Sapphire Metallic',
+      '121212',
+      'Carbon Black Metallic',
+      '13181C',
+      'Champagne Quartz Metallic',
+      '605548',
+      'Citrin Black Metallic',
+      '141512',
+      'Estoril Blue Metallic',
+      '233D5A',
+      'Frozen Bronze Metallic',
+      '43352F',
+      'Glacier Silver Metallic',
+      'ADB0B1',
+      'Imperial Blue Metallic',
+      '12141B',
+      'Jet Black',
+      '000000',
+      'Mediterranean Blue Metallic',
+      '091C36',
+      'Mineral Gray Metallic',
+      '515254',
+      'Mineral White Metallic',
+      'CACACA',
+      'Smoked Topaz Metallic',
+      '34241C',
+      'Snapper Rocks Blue Metallic',
+      '2290AF',
+      'Sunset Orange Metallic',
+      'BC3B1B'
+    ]
+  ],
+  'm9QXeaOGKGX2TfVcd8F0Zhu': [
+    '2020 Land Rover Discovery',
+    [
+      'Byron Blue Metallic',
+      '575E6E',
+      'Farallon Black Premium Metallic',
+      '10100F',
+      'Fuji White',
+      'E3E8E2',
+      'Indus Silver Metallic',
+      'BCBEBE',
+      'Namib Orange Premium Metallic',
+      '692B12',
+      'Narvik Black',
+      '171719',
+      'Portofino Blue Metallic',
+      '1E1F34',
+      'Santorini Black Metallic',
+      '191A1C',
+      'Silicon Silver Premium Metallic',
+      '78756D',
+      'Yulong White Metallic',
+      'CDCFD0'
+    ]
+  ],
+  'qdcvWssRMCOxg9keVS4bSS0': [
+    '2020 GMC Terrain',
+    [
+      'Blue Emerald Metallic', '00394D', 'Ebony Twilight Metallic', '050507',
+      'Graphite Gray Metallic', '343737', 'Quicksilver Metallic', 'C1C2C6',
+      'Red Quartz Tintcoat', '540011', 'Satin Steel Metallic', '757879',
+      'Smokey Quartz Metallic', '352D26', 'Summit White', 'F9F9F9',
+      'White Frost Tricoat', 'C3C3BC'
+    ]
+  ],
+  'i4XevSXIZD9jtRZIvmdapB0': [
+    '2020 Hyundai Sonata',
+    [
+      'Calypso Red', 'A52331', 'Glowing Yellow', 'FFCF02', 'Hampton Gray',
+      '586060', 'Phantom Black', '121114', 'Portofino Gray', '43454A',
+      'Quartz White', 'FDFBFB', 'Shimmering Silver Pearl', '757C82',
+      'Stormy Sea', '172744'
+    ]
+  ],
+  'yPXvO1QJLywJwNnfQnnWNkC': [
+    '2020 Kia Stinger',
+    [
+      'Aurora Black', '16181D', 'Ceramic Silver', 'AEACA4', 'Federation Orange',
+      'EC4F2B', 'HiChroma Red', '3F002B', 'Micro Blue', '145AA5',
+      'Panthera Metal', '37373C', 'Snow White Pearl', 'E5E1D8'
+    ]
+  ],
+  'Wg4NFlJajE9k4f3KmopfOqF': [
+    '2020 Subaru Forester',
+    [
+      'Crimson Red Pearl', '830023', 'Crystal Black Silica', '08080A',
+      'Crystal White Pearl', 'C7C7C3', 'Dark Blue Pearl', '1A1E29',
+      'Horizon Blue Pearl', '2C415C', 'Ice Silver Metallic', '999B9E',
+      'Jasper Green Metallic', '839483', 'Magnetite Gray Metallic', '454545',
+      'Sepia Bronze Metallic', '80705F'
+    ]
+  ],
+  'gLSCxLDKcyt2zfthAnFkqAv': [
+    '2020 Mitsubishi Outlander',
+    [
+      'Alloy Silver Metallic', '959595', 'Cosmic Blue Metallic', '14245A',
+      'Labrador Black Metallic', '000000', 'Mercury Gray Metallic', '5E5C5A',
+      'Pearl White', 'FFFFFF', 'Quartz Brown Metallic', '65524A', 'Red Diamond',
+      'AC1E2E'
+    ]
+  ],
+  'hjflePzqtma66pIhAkck2ma': [
+    '2020 GMC Yukon',
+    [
+      'Carbon Black Metallic',
+      '161415',
+      'Crimson Red Tintcoat',
+      '4F0615',
+      'Dark Sapphire Blue Metallic',
+      '0F1829',
+      'Dark Sky Metallic',
+      '323533',
+      'Onyx Black',
+      '0A0A0A',
+      'Quicksilver Metallic',
+      'C1C2C6',
+      'Satin Steel Metallic',
+      '757879',
+      'Smokey Quartz Metallic',
+      '352D26',
+      'Summit White',
+      'F9F9F9',
+      'White Frost Tricoat',
+      'C3C3BC'
+    ]
+  ],
+  'fJh1O4FZ2q0AxRPzBWx2Bwz': [
+    '2020 Mercedes-Benz C-Class',
+    [
+      'Black', '0A0A0B', 'Brilliant Blue Metallic', '0C1D38',
+      'Designo Cardinal Red Metallic', '560012', 'Designo Cashmere White Magno',
+      'F4F2ED', 'Designo Diamond White Metallic', 'EEEAD9',
+      'Lunar Blue Metallic', '111622', 'Mojave Silver Metallic', 'C9CDCE',
+      'Obsidian Black Metallic', '0E0E0E', 'Polar White', 'DBDAD4'
+    ]
+  ],
+  'HvXxaldBVRYHgHg38Nhgor0': [
+    '2020 BMW M5',
+    [
+      'Almandin Brown II Metallic',
+      '190E09',
+      'Alpine White',
+      'E9EEE8',
+      'Azurite Black II Metallic',
+      '101218',
+      'Black Sapphire Metallic',
+      '121212',
+      'Bluestone Metallic',
+      '636469',
+      'Champagne Quartz II Metallic',
+      '605548',
+      'Donington Gray Metallic',
+      'A1A1A1',
+      'Marina Bay Blue Metallic',
+      '1C2954',
+      'Rhodonite Silver Metallic',
+      'C2C2C4',
+      'Singapore Gray Metallic',
+      '22282A',
+      'Snapper Rocks Blue Metallic',
+      '2290AF'
+    ]
+  ],
+  '0poTCdyFKXYTP1iP3Lb0YpF': [
+    '2020 Ford F-250',
+    [
+      'Agate Black Metallic',
+      '0A0A0C',
+      'Blue Jeans Metallic',
+      '11293B',
+      'Green',
+      '2B4951',
+      'Green Gem',
+      '101410',
+      'Iconic Silver Metallic',
+      'C5C5CB',
+      'Magnetic Metallic',
+      '454744',
+      'Orange',
+      'BE3105',
+      'Oxford White',
+      'F7F7F5',
+      'Race Red',
+      'AC2035',
+      'Rapid Red Metallic Tinted Clearcoat/Stone Gray',
+      'A01234',
+      'School Bus Yellow',
+      'EEA017',
+      'Silver Spruce Metallic',
+      '646463',
+      'Star White Metallic Tri-Coat/Stone Gray',
+      'E4E4E3',
+      'Stone Gray Metallic',
+      '5B4F45',
+      'Velocity Blue Metallic',
+      '1759AB',
+      'Vermillion Red',
+      '7C0420',
+      'Yellow',
+      'FBC003'
+    ]
+  ],
+  'NjxV1F3NjP7FSZ4UYc1Oheu': [
+    '2020 BMW X7',
+    [
+      'Alpine White',
+      'E9EEE8',
+      'Ametrin Metallic',
+      '45172B',
+      'Arctic Gray Metallic',
+      '2D2E31',
+      'Black Sapphire Metallic',
+      '121212',
+      'Carbon Black Metallic',
+      '13181C',
+      'Dark Graphite Metallic',
+      '2D2D2D',
+      'Jet Black',
+      '000000',
+      'Manhattan Green Metallic',
+      '625C4F',
+      'Mineral White Metallic',
+      'CACACA',
+      'Phytonic Blue Metallic',
+      '0E2A41',
+      'Tanzanite Blue II Metallic',
+      '01091D',
+      'Vermont Bronze Metallic',
+      '554539'
+    ]
+  ],
+  '773i07aVh1wx4G2lPnXeGwu': [
+    '2020 Land Rover Range Rover',
+    [
+      'Aruba Premium Metallic',
+      '7A7972',
+      'Byron Blue Metallic',
+      '575E6E',
+      'Carpathian Gray Premium Metallic',
+      '2A2A2C',
+      'Eiger Gray Metallic',
+      '5B5C56',
+      'Firenze Red Metallic',
+      '6C0F18',
+      'Fuji White',
+      'E3E8E2',
+      'Indus Silver Metallic',
+      'BCBEBE',
+      'Narvik Black',
+      '171719',
+      'Portofino Blue Metallic',
+      '1E1F34',
+      'Rosello Red Metallic',
+      '2B0A0F',
+      'Santorini Black Metallic',
+      '191A1C',
+      'Silicon Silver Premium Metallic',
+      '78756D',
+      'Yulong White Metallic',
+      'CDCFD0'
+    ]
+  ],
+  'wGY5RUu6OBaMXs3ARaPAh3y': [
+    '2020 Chevrolet Camaro',
+    [
+      'Black',
+      '0A0A0A',
+      'Crush',
+      'C13526',
+      'Garnet Red Tintcoat',
+      '6A021B',
+      'Rally Green Metallic',
+      '1B6032',
+      'Red Hot',
+      '9B071B',
+      'Riverside Blue Metallic',
+      '0E2452',
+      'Satin Steel Metallic',
+      '757879',
+      'Shadow Gray Metallic',
+      '323533',
+      'Shock',
+      'B1BB0D',
+      'Summit White',
+      'F9F9F9'
+    ]
+  ],
+  'Ico32xnzUB2k0Hj1ROvVZqt': [
+    '2020 Ford F-150',
+    [
+      'Abyss Gray Metallic',
+      '51504E',
+      'Agate Black Metallic',
+      '0A0A0C',
+      'Blue Jeans Metallic',
+      '11293B',
+      'Ford Performance Blue Metallic',
+      '2A3C50',
+      'Green',
+      '2B4951',
+      'Iconic Silver Metallic',
+      'C5C5CB',
+      'Lead Foot',
+      '2C2B2B',
+      'Magma Red Metallic',
+      '2E211C',
+      'Magnetic Metallic',
+      '454744',
+      'Orange',
+      'BE3105',
+      'Oxford White',
+      'E7E7E5',
+      'Race Red',
+      'AC2035',
+      'Rapid Red Metallic Tinted Clearcoat',
+      'A01234',
+      'School Bus Yellow',
+      'EEA717',
+      'Silver Spruce Metallic',
+      '646463',
+      'Star White Metallic Tri-Coat',
+      'E4E4E3',
+      'Stone Gray Metallic',
+      '5B4F45',
+      'Velocity Blue Metallic',
+      '1759AB',
+      'Vermillion Red',
+      '7C0420',
+      'Yellow',
+      'FBC003'
+    ]
+  ],
+  'kwZlU0orDpKtm1hsCp5oMXe': [
+    '2020 Honda Pilot',
+    [
+      'Black Forest Pearl', '141A11', 'Crystal Black Pearl', '1D1D1D',
+      'Deep Scarlet Pearl', '540E1A', 'Lunar Silver Metallic', 'A0A0A0',
+      'Modern Steel Metallic', '403F3F', 'Obsidian Blue Pearl', '12192A',
+      'Platinum White Pearl', 'E0DDD4', 'Steel Sapphire Metallic', '1B446F'
+    ]
+  ],
+  'o1tt7X7y8mEVimTn0BLUCl0': [
+    '2020 Toyota Tundra',
+    [
+      'Army Green',
+      '3C4838',
+      'Barcelona Red Metallic',
+      '70010D',
+      'Cavalry Blue',
+      '39577A',
+      'Cement',
+      '616364',
+      'Magnetic Gray Metallic',
+      '323030',
+      'Midnight Black Metallic',
+      '000000',
+      'Quicksand',
+      '7B704E',
+      'Silver Sky Metallic',
+      'B1B1B1',
+      'Smoked Mesquite',
+      '493D34',
+      'Super White',
+      'FBFAF9',
+      'Voodoo Blue',
+      '193A67'
+    ]
+  ],
+  'HAM4ADs8m1z2pNCkaUwE4nh': [
+    '2020 Toyota 86',
+    [
+      'Ablaze', '83010D', 'Hakone Green', '194027', 'Halo', 'D6D6CE', 'Neptune',
+      '1B89C8', 'Oceanic', '141F3F', 'Pavement', '8D8D8D', 'Raven', '050505',
+      'Steel', 'A09E9C'
+    ]
+  ],
+  'zWZhbhQlDxt43eZRStQ2Pz6': [
+    '2020 Honda CR-V',
+    [
+      'Aegean Blue Metallic', '0A2E80', 'Crystal Black Pearl', '1D1D1D',
+      'Lunar Silver Metallic', 'A0A0A0', 'Modern Steel Metallic', '403F3F',
+      'Obsidian Blue Pearl', '121E2C', 'Platinum White Pearl', 'E0DDD4',
+      'Radiant Red Metallic', '990019', 'Sonic Gray Pearl', 'C8CDD3'
+    ]
+  ],
+  '9w3DtLSOqIRQhZCSVD9tMX3': [
+    '2020 Mazda CX-5',
+    [
+      'Deep Crystal Blue Mica',
+      '0B212B',
+      'Eternal Blue Mica',
+      '303C48',
+      'Eternal Blue Mica',
+      '1E4B61',
+      'Jet Black Mica',
+      '10100F',
+      'Machine Gray Metallic',
+      '3D3E41',
+      'Machine Gray Metallic',
+      '38353A',
+      'Snowflake White Pearl Mica',
+      'E7E8E8',
+      'Sonic Silver Metallic',
+      '838381',
+      'Soul Red Crystal Metallic',
+      '890B21',
+      'Soul Red Crystal Metallic',
+      'D80036'
+    ]
+  ],
+  'MsUDUWdxoJP0RcHK0pogz1H': [
+    '2020 Toyota Highlander Hybrid',
+    [
+      'Blizzard Pearl', 'DEDED2', 'Blueprint', '1F2B58',
+      'Celestial Silver Metallic', 'BBBCB5', 'Magnetic Gray Metallic', '323030',
+      'Midnight Black Metallic', '000000', 'Moon Dust', '6B7380',
+      'Opulent Amber', '322827', 'Ruby Flare Pearl', 'A5001C'
+    ]
+  ],
+  'hw3Bt39c7vnjBMA5Qkz4VAE': [
+    '2020 Toyota Highlander',
+    [
+      'Blizzard Pearl', 'DEDED2', 'Blueprint', '1F2B58',
+      'Celestial Silver Metallic', 'BBBCB5', 'Magnetic Gray Metallic', '323030',
+      'Midnight Black Metallic', '000000', 'Moon Dust', '6B7380',
+      'Opulent Amber', '322827', 'Ruby Flare Pearl', 'A5001C'
+    ]
+  ],
+  'I82bQj3YkJ08z30QuIfe1U': [
+    '2020 Kia Telluride',
+    [
+      'Black Copper', '493C30', 'Dark Moss', '454129', 'Ebony Black', '0F0E10',
+      'Everlasting Silver', 'A4A4AB', 'Gravity Gray', '56565A', 'Sangria',
+      '2A1919', 'Snow White Pearl', 'E5E1D8'
+    ]
+  ],
+  'wiN3bwVj7MBf8qzhut4A6I': [
+    '2020 Ford Explorer',
+    [
+      'Agate Black Metallic',
+      '0A0A0C',
+      'Atlas Blue Metallic',
+      '1F45A3',
+      'Blue Metallic',
+      '3C5571',
+      'Iconic Silver Metallic',
+      'C5C5CB',
+      'Magnetic Metallic',
+      '454744',
+      'Oxford White',
+      'E7E7E5',
+      'Rapid Red Metallic Tinted Clearcoat',
+      'A01234',
+      'Rich Copper Metallic Tinted Clearcoat',
+      '361B16',
+      'Silver Spruce Metallic',
+      '646463',
+      'Star White Metallic Tri-Coat',
+      'E4E4E3'
+    ]
+  ],
+  '8q3JBQtvAk5Sn8JGIPwH5gU': [
+    '2020 Nissan Murano',
+    [
+      'Brilliant Silver Metallic', 'BCBCBC', 'Cayenne Red Metallic', '6C1825',
+      'Deep Blue Pearl', '141F3E', 'Gun Metallic', '373837',
+      'Mocha Almond Pearl', '38211B', 'Pearl White Tricoat', 'EDE9D9',
+      'Sunset Drift Metallic', '6B2D1A', 'Super Black Metallic', '050505'
+    ]
+  ],
+  '2dPCxKh34u9U3GWYdhViiw': [
+    '2020 Toyota RAV4',
+    [
+      'Blizzard Pearl',
+      'DEDED2',
+      'Blue Flame',
+      '00629B',
+      'Blueprint',
+      '1F2B58',
+      'Lunar Rock',
+      '98A3A6',
+      'Magnetic Gray Metallic',
+      '1F2020',
+      'Magnetic Gray Metallic',
+      '323030',
+      'Midnight Black Metallic',
+      '000000',
+      'Ruby Flare Pearl',
+      'A5001C',
+      'Silver Sky Metallic',
+      'B1B1B1',
+      'Super White',
+      'FBFAF9'
+    ]
+  ],
+  'z39r5X2sSyOVZcsNLB9c2T': [
+    '2020 Jeep Wrangler',
+    [
+      'Bikini Pearlcoat',
+      '006669',
+      'Billet Silver Metallic Clearcoat',
+      '838587',
+      'Black Clearcoat',
+      '0E0E0F',
+      'Bright White Clearcoat',
+      'E4E9E5',
+      'Firecracker Red Clearcoat',
+      '9A2527',
+      'Granite Crystal Metallic Clearcoat',
+      '4A4645',
+      'Hellayella Clearcoat',
+      'E69612',
+      'Mojito! Clearcoat',
+      '197500',
+      'Ocean Blue Metallic Clearcoat',
+      '1C1C37',
+      'Punkn Metallic Clearcoat',
+      'CE6D2A',
+      'Sarge Green Clearcoat',
+      '36300F',
+      'Sting-Gray Clearcoat',
+      '5D5D5D'
+    ]
+  ],
+  'yEY2i7gguyonGXeiCAHgKq2': [
+    '2020 Tesla Model 3',
+    [
+      'Deep Blue Metallic', '003174', 'Midnight Silver Metallic', '3E3F44',
+      'Pearl White Multi-Coat', 'CFCFCF', 'Red Multi-Coat', 'A90033',
+      'Solid Black', '040404'
+    ]
+  ],
+  'W6U8bDVbGTxVlA0s7x8BsS': [
+    '2020 Audi R8',
+    [
+      'Ara Blue Crystal Effect',
+      '26497D',
+      'Ascari Blue Metallic',
+      '1677AC',
+      'Daytona Gray Pearl Effect',
+      '464844',
+      'Florett Silver Metallic',
+      'B2B1B1',
+      'Ibis White',
+      'EAEAE8',
+      'Kemora Gray Metallic',
+      '677077',
+      'Mythos Black Metallic',
+      '0B0D0C',
+      'Suzuka Gray Metallic',
+      'B9C5C0',
+      'Tango Red Metallic',
+      '760216',
+      'Vegas Yellow',
+      'DBA902'
+    ]
+  ],
+  'Fn0QeswJt9bDrhF78GeOoA': [
+    '2020 Chevrolet Corvette',
+    [
+      'Accelerate Yellow Metallic',
+      'D4CD10',
+      'Arctic White',
+      'ECECE2',
+      'Black',
+      '0A0A0A',
+      'Blade Silver Metallic',
+      'C1C2C6',
+      'Ceramic Matrix Gray Metallic',
+      'ACADAD',
+      'Elkhart Lake Blue Metallic',
+      '072E95',
+      'Long Beach Red Metallic Tintcoat',
+      '4F0615',
+      'Rapid Blue',
+      '1F66D0',
+      'Sebring Orange Tintcoat',
+      'CC382F',
+      'Shadow Gray Metallic',
+      '323533',
+      'Torch Red',
+      '8E000C',
+      'Zeus Bronze Metallic',
+      '534540'
+    ]
+  ],
+  '8XwTeE7oZHl2nCezF0EwI9z': [
+    '2020 Honda Civic',
+    [
+      'Aegean Blue Metallic',
+      '0A2E80',
+      'Cosmic Blue Metallic',
+      '0A1722',
+      'Crystal Black Pearl',
+      '1D1D1D',
+      'Lunar Silver Metallic',
+      'A0A0A0',
+      'Modern Steel Metallic',
+      '403F3F',
+      'Molten Lava Pearl',
+      '6B2214',
+      'Platinum White Pearl',
+      'E0DDD4',
+      'Polished Metal Metallic',
+      '343737',
+      'Rallye Red',
+      '990019',
+      'Sonic Gray Pearl',
+      'C8CDD3'
+    ]
+  ],
+  'Volvo_XC40_Recharge': [
+    '2020 Volvo XC40 Recharge',
+    [
+      'Black Stone',
+      '020202',
+      'Bursting Blue Metallic',
+      '234470',
+      'Crystal White Metallic',
+      'DEDCD8',
+      'Denim Blue Metallic',
+      '2E3438',
+      'Fusion Red Metallic',
+      '940027',
+      'Glacier Silver Metallic',
+      'BEC1C3',
+      'Ice White',
+      'E2E4E7',
+      'Onyx Black Metallic',
+      '040508',
+      'Pebble Gray Metallic',
+      '83807B',
+      'Thunder Gray Metallic',
+      '7B7C7D',
+    ],
+    true
+  ],
+  'Volvo_XC40': [
+    '2020 Volvo XC40',
+    [
+      'Black Stone',
+      '020202',
+      'Bursting Blue Metallic',
+      '234470',
+      'Crystal White Metallic',
+      'DEDCD8',
+      'Denim Blue Metallic',
+      '2E3438',
+      'Fusion Red Metallic',
+      '940027',
+      'Glacier Silver Metallic',
+      'BEC1C3',
+      'Ice White',
+      'E2E4E7',
+      'Onyx Black Metallic',
+      '040508',
+      'Pebble Gray Metallic',
+      '83807B',
+      'Thunder Gray Metallic',
+      '7B7C7D',
+    ],
+    true
+  ],
+  'Volvo_XC60': [
+    '2020 Volvo XC60',
+    [
+      'Bright Silver Metallic',
+      'B8B6B8',
+      'Bursting Blue Metallic',
+      '234470',
+      'Crystal White Metallic',
+      'DEDCD8',
+      'Denim Blue Metallic',
+      '2E3438',
+      'Fusion Red Metallic',
+      '940027',
+      'Ice White',
+      'E2E4E7',
+      'Onyx Black Metallic',
+      '040508',
+    ],
+    true
+  ],
+  'Volvo_XC90': [
+    '2020 Volvo XC90',
+    [
+      'Birch Light Metallic',
+      '99978F',
+      'Bright Silver Metallic',
+      'B8B6B8',
+      'Bursting Blue Metallic',
+      '234470',
+      'Crystal White Metallic',
+      'DEDCD8',
+      'Denim Blue Metallic',
+      '2E3438',
+      'Ice White',
+      'E2E4E7',
+      'Onyx Black Metallic',
+      '040508',
+    ],
+    true
+  ],
+  'Porsche_911_CarreraS': [
+    '2020 Porsche 911 Carrera S',
+    [
+      'Aventurine Green Metallic',
+      '2A3A2C',
+      'Black',
+      '121214',
+      'Carmine Red',
+      '720D1E',
+      'Carrara White Metallic',
+      'D9D9D9',
+      'Chalk',
+      'B1B2AF',
+      'Custom Color',
+      '000000',
+      'Dolomite Silver Metallic',
+      'A4A59E',
+      'GT Silver Metallic',
+      'A2A2A2',
+      'Gentian Blue Metallic',
+      '0C265C',
+      'Guards Red',
+      '9C001D',
+      'Jet Black Metallic',
+      '17191D',
+      'Lava Orange',
+      'C92627',
+      'Lizard Green',
+      '797E3D',
+      'Miami Blue',
+      '1B575A',
+      'Night Blue Metallic',
+      '091823',
+      'Racing Yellow',
+      'FFDD20',
+      'White',
+      'DDE0DD',
+    ],
+    true
+  ],
+  'Porsche_Cayenne_TurboSEHybrid': [
+    '2020 Porsche Cayenne Coupe',
+    [
+      'Biscay Blue Metallic',
+      '3E4C5E',
+      'Black',
+      '121214',
+      'Carrara White Metallic',
+      'D9D9D9',
+      'Chalk',
+      'B1B2AF',
+      'Dolomite Silver Metallic',
+      'A4A59E',
+      'Jet Black Metallic',
+      '17191D',
+      'Lava Orange',
+      'C92627',
+      'Mahogany Metallic',
+      '281A19',
+      'Moonlight Blue Metallic',
+      '101C28',
+      'Quartzite Metallic',
+      '49535A',
+      'White',
+      'DDE0DD',
+    ],
+    true
+  ],
+  'Porsche_Macan_GTS': [
+    '2020 Porsche Macan GTS',
+    [
+      'Black',
+      '121214',
+      'Carmine Red',
+      '720D1E',
+      'Carrara White Metallic',
+      'D9D9D9',
+      'Chalk',
+      'B1B2AF',
+      'Dolomite Silver Metallic',
+      'A4A59E',
+      'Jet Black Metallic',
+      '17191D',
+      'Mahogany Metallic',
+      '281A19',
+      'Mamba Green Metallic',
+      '185F1A',
+      'Miami Blue',
+      '1B575A',
+      'Night Blue Metallic',
+      '091823',
+      'Sapphire Blue Metallic',
+      '254578',
+      'White',
+      'DDE0DD',
+    ],
+    true
+  ],
+  'Porsche_Panamera_4SEHybrid': [
+    '2020 Porsche Panamera 4S',
+    [
+      'Amethyst Metallic',
+      '2E1B1B',
+      'Black',
+      '121214',
+      'Burgundy Red Metallic',
+      '331E26',
+      'Carmine Red',
+      '720D1E',
+      'Carrara White Metallic',
+      'D9D9D9',
+      'Chalk',
+      'B1B2AF',
+      'Dolomite Silver Metallic',
+      'A4A59E',
+      'GT Silver Metallic',
+      'A2A2A2',
+      'Gentian Blue Metallic',
+      '0C265C',
+      'Jet Black Metallic',
+      '17191D',
+      'Mahogany Metallic',
+      '281A19',
+      'Mamba Green Metallic',
+      '185F1A',
+      'Night Blue Metallic',
+      '091823',
+      'Papaya Metallic',
+      'C63800',
+      'Ristretto Brown Metallic',
+      '2C2928',
+      'Volcano Gray Metallic',
+      '2B2B2B',
+      'White',
+      'DDE0DD',
+    ],
+    true
+  ],
+  'Porsche_Taycan_TurboS': [
+    '2020 Porsche Taycan Turbo S',
+    [
+      'Black',
+      '121214',
+      'Carmine Red',
+      '720D1E',
+      'Carrara White Metallic',
+      'D9D9D9',
+      'Dolomite Silver Metallic',
+      'A4A59E',
+      'Frozen Blue Metallic',
+      '73A0AA',
+      'Gentian Blue Metallic',
+      '0C265C',
+      'Jet Black Metallic',
+      '17191D',
+      'Mamba Green Metallic',
+      '185F1A',
+      'Volcano Gray Metallic',
+      '2B2B2B',
+      'White',
+      'DDE0DD',
+    ],
+    true
+  ]
+};
+
+const defaultColors = [
+          'Aegean Blue Metallic',
+          '0A2E80',
+          'Cosmic Blue Metallic',
+          '0A1722',
+          'Crystal Black Pearl',
+          '1D1D1D',
+          'Lunar Silver Metallic',
+          'A0A0A0',
+          'Modern Steel Metallic',
+          '403F3F',
+          'Molten Lava Pearl',
+          '6B2214',
+          'Platinum White Pearl',
+          'E0DDD4',
+          'Polished Metal Metallic',
+          '343737',
+          'Rallye Red',
+          '990019',
+          'Sonic Gray Pearl',
+          'C8CDD3'
+        ];
+
+const porscheTestColors = [
+      'Neptune Blue (Porsche)',
+      '2A455A',
+      'Crayon (Porsche)',
+      'C4C4BE',
+      'Guards Red (Porsche)',
+      'EE2E26',
+      'Guards Red (Google)',
+      '9C001D',
+      'Lava Orange (Porsche)',
+      'FF3D00',
+      'Lava Orange (Google)',
+      'C92627',
+      'Dolomite Silver Metallic (Porsche)',
+      'EBF2FA',
+      'Dolomite Silver Metallic (Google)',
+      'A4A59E',
+      'Mamba Green Metallic (Porsche)',
+      '658B32',
+      'Mamba Green Metallic (Google)',
+      '185F1A',
+      'Papaya Metallic (Porsche)',
+      'F14F00',
+      'Papaya Metallic (Google)',
+      'C63800',
+      'Gentian Blue Metallic (Porsche)',
+      '354B86',
+      'Gentian Blue Metallic (Google)',
+      '0C265C',
+    ];
+</script>
+
+<script>
+  const usePorscheTestColors = false;
+  const titlePrefix = "DEBUG: ";
+  console.log("Loading SceneViewerWeb");
+  var viewerReadyEventRecieved = false;
+  window.addEventListener("viewerready",async () => {
+    // TODO(b/165333429) should be removed when the bug is fixed
+    if (viewerReadyEventRecieved) {
+      return;
+    }
+    viewerReadyEventRecieved = true;
+
+    viewer = new SceneViewerWeb();
+    await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
+    await viewer.configureButton(ButtonType.RIGHT,
+                                 "https://www.gstatic.com/search-ar-dev/colour-picker-button.png",
+                                 160);
+    await viewer.configureButton(ButtonType.LEFT,
+                                 "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
+                                 160);
+
+    //Get URL param
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    // Convert a hex color string to an object of colors in [0, 255]
+    function hexToRgb(hex) {
+      // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+      var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+      });
+
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function componentToHex(c) {
+      const hex = c.toString(16);
+      return hex.length == 1 ? "0" + hex : hex;
+    }
+    // Convert an object of integer color in [0, 255] to an a hex color string
+    function rgbToHex(rgb) {
+      return componentToHex(rgb.r) + componentToHex(rgb.g) + componentToHex(rgb.b);
+    }
+
+    // Correct color with linear model for all channels (source model is at go/c9-oem-colors)
+    function correctComponent(c) {
+      const m = 1.306816975;
+      const b = 0.05658936024;
+      return Math.trunc(Math.min(Math.max(c / 255 * m + b, 0.0), 1.0) * 255);
+    }
+    // Correct color with linear model
+    function correctColor(rgb) {
+      return {
+        r: correctComponent(rgb.r),
+        g: correctComponent(rgb.g),
+        b: correctComponent(rgb.b)
+      };
+    }
+
+    // Default asset state
+    let assetState = {
+      map: '',
+      color: '',
+      bg: 'studio-btn'
+    };
+    const carousel           = document.getElementById('carousel');
+    const colorPicker        = document.getElementById('color-picker');
+    const bgPicker           = document.getElementById('bg-picker');
+    const carColorContainers = document.getElementsByClassName("color-picker-container");
+    function hideAllCards() {
+        bgPicker.style = 'display:none;';
+        colorPicker.style = 'display:none;';
+        carousel.style = 'display:all;';
+    }
+    // Close buttons
+    const closeButtons = document.querySelectorAll('.modal-close-button,.color-picker-title');
+    for (var i = 0; i < closeButtons.length; i++) {
+      closeButtons[i].addEventListener('click', function() {
+        viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
+        hideAllCards();
+      });
+    }
+    function hideColorsContainers() {
+      for (var i = 0; i < carColorContainers.length; i++) {
+        carColorContainers[i].style = 'display:none;';
+      }
+    }
+    // Interactions
+    const buttonsToElements =
+          [{button: ButtonType.RIGHT, element: colorPicker},
+           {button: ButtonType.LEFT, element: bgPicker}];
+    async function buttonPress(event) {
+      if (hotspotSelected) {
+        return;
+      }
+      hideAllCards();
+      for (const buttonToElement of buttonsToElements) {
+        if (buttonToElement.button === event.buttonId) {
+          await viewer.setBottomCardVisibility(BottomCardVisibility.EXPANDED);
+          buttonToElement.element.style = 'display:all;';
+          carousel.style = 'display:none;';
+        }
+      }
+    }
+    viewer.addEventListener('buttonpress', buttonPress);
+    function clickItemWithId(elementId) {
+      const elem = document.getElementById(elementId);
+      if(!elem)
+        return;
+      elem.click();
+    }
+    function changeMapOnClick(carIdx, mapName, title, colorIdx) {
+      const btnId = "btn-" + carIdx;
+
+      const btn = document.getElementById(btnId);
+      const colorsContainer = document.getElementById("color-picker-" + carIdx);
+      if(!btn || !colorsContainer)
+        return;
+      btn.addEventListener('click', async () => {
+        viewer.sendScriptingEvent('map_switch', mapName);
+        clickItemWithId("color-" + carIdx + "-" + colorIdx);
+        viewer.setTitle(titlePrefix + title);
+        // Display different color menus per car
+        hideColorsContainers();
+        colorsContainer.style = 'display:all;';
+        assetState.map = btnId;
+      });
+    }
+    function sendMessageOnClick(elementId, type, value) {
+      const elem = document.getElementById(elementId);
+      if(!elem)
+        return;
+      elem.addEventListener('click', async () => {
+        viewer.sendScriptingEvent(type, value);
+        if(type == "color_switch") {
+          assetState.color = elementId;
+        }
+        if(type == "bg_switch") {
+          assetState.bg = elementId;
+        }
+      });
+    }
+    // Selection highlight
+    function selectionHighlight(element_id, selected_class) {
+      var maps = document.getElementsByClassName(element_id);
+      if(!maps)
+        return;
+      for (var i = 0; i < maps.length; i++) {
+        maps[i].addEventListener('click', function() {
+          var current = document.getElementsByClassName(selected_class);
+          if (current.length > 0) {
+           current[0].className = current[0].className.replace(' ' + selected_class, '');
+          }
+          this.className += ' ' + selected_class;
+        });
+      }
+    }
+
+    let carGlbMapping = {};
+
+    // Generate random carousel content
+    const carKeys = Object.keys(cars);
+
+    let selectedCars = {};
+    const file = getUrlParameter('file');
+    const selectedGlbKey = file.replace('https://storage.googleapis.com/search-ar-vehicles/','').replace('.glb', '');
+
+    // Add car to list if it does not exits
+    if(!(selectedGlbKey in cars)) {
+      const title = getUrlParameter('title');
+      cars[selectedGlbKey] = [title, defaultColors, true];
+    }
+    selectedCars[selectedGlbKey] = cars[selectedGlbKey];
+
+    // Add all Tier-2 cars to carousel
+    const tier2Cars = ['Volvo_XC40_Recharge', 'Volvo_XC40', 'Volvo_XC60', 'Volvo_XC90',
+                       'Porsche_Taycan_TurboS', 'Porsche_Panamera_4SEHybrid', 'Porsche_Macan_GTS',
+                       'Porsche_911_CarreraS', 'Porsche_Cayenne_TurboSEHybrid'];
+    tier2Cars.forEach((tier2Car) => {
+      if(tier2Car in cars)
+        selectedCars[tier2Car] = cars[tier2Car];
+    });
+
+    if(getUrlParameter('carouselType') == "random") {
+      let insertTriesLeft = 50;
+      while(Object.keys(selectedCars).length < 5) {
+        if(--insertTriesLeft <= 0)
+          break;
+
+        const selectedKey = carKeys[Math.floor(Math.random() * carKeys.length)];
+        if(selectedKey in selectedCars)
+          continue;
+        selectedCars[selectedKey] = cars[selectedKey];
+      }
+    }
+
+    let carouselTiles = selectedCars;
+    if(getUrlParameter('carouselType') == "all")
+      carouselTiles = cars;
+
+    // Overwrite car colors with Porsche test colors if they should be used
+    if(usePorscheTestColors) {
+      for (const [glb, values] of Object.entries(carouselTiles)) {
+        values[1] = porscheTestColors;
+      }
+    }
+
+    // Add corrected colors
+    for (const [glb, values] of Object.entries(carouselTiles)) {
+      let correctedColors = [];
+      for(let i = 0; i < values[1].length; i += 2) {
+        const name  = values[1][i + 0];
+        const color = values[1][i + 1];
+
+        correctedColors.push(name);
+        correctedColors.push(color);
+
+        const rgb = hexToRgb(color);
+        if(rgb != null) {
+          correctedColors.push(name + " (Corrected)");
+          correctedColors.push(rgbToHex(correctColor(rgb)));
+        }
+      }
+      values[1] = correctedColors;
+    }
+
+    // Setup carousel
+    {
+      // Create carousel content from intent array
+      let carouselContent = "";
+      let colorContent = "";
+      for (const [glb, values] of Object.entries(carouselTiles)) {
+        const title = values[0];
+        const isCustomMap = values[2] === true;
+
+        const buttonId = "btn-" + glb;
+        const colorId = "color-" + glb;
+
+        const thumbnailUri = isCustomMap ?
+              'https://www.gstatic.com/ar/core/viewer/carousel/cloud9/XC90.png' :
+              `https://storage.googleapis.com/search-ar-vehicles/${glb}.png`;
+
+        carouselContent += `
+         <div class="carousel-item" id="${buttonId}">
+           <img src="${thumbnailUri}" alt="${title}">
+           <div class="carousel-item-info">
+             <div class="carousel-item-title">${title}</div>
+           </div>
+         </div>`;
+
+        colorContent += `<div class="color-picker-container"
+                              style="display: none;" id="color-picker-${glb}">`;
+        const carColors = values[1];
+        const colorCount = carColors.length / 2;
+        for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
+          colorContent += `
+                <div class="color-item" id="${colorId}-${colorIdx}">
+                <div class="color-button"
+                     style="background-color:#${carColors[colorIdx * 2 + 1]};"></div>
+                  <span class="color-name">${carColors[colorIdx * 2]}</span>
+                </div>`;
+        }
+        colorContent += "</div>";
+
+        // Store mapping from GLB URL to details for initial highlight of selected car
+        carGlbMapping[glb] = [buttonId, colorId + "-0"];
+      }
+      document.getElementById('carousel-container').innerHTML = carouselContent;
+      document.getElementById('color-pickers').innerHTML = colorContent;
+
+      // Set up listeners for car and color buttons
+      for (const [glb, values] of Object.entries(carouselTiles)) {
+        const title = values[0];
+        const isCustomMap = values[2] === true;
+
+        let glbUri = isCustomMap ?
+          glb :
+          `https://storage.googleapis.com/search-ar-vehicles/${glb}.glb`;
+        changeMapOnClick(glb, glbUri, title, 0);
+
+        const carColors = values[1];
+        const colorCount = carColors.length / 2;
+        for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
+          const colorName =    carColors[colorIdx * 2 + 0];
+          const rgb = hexToRgb(carColors[colorIdx * 2 + 1]);
+          if(rgb == null) {
+            console.error("Failed to parse color", carColors[colorIdx * 2 + 1]);
+            continue;
+          }
+          sendMessageOnClick(`color-${glb}-${colorIdx}`,
+                             'color_switch',
+                             `(R=${rgb.r / 255},G=${rgb.g / 255},B=${rgb.b / 255},A=1)`);
+          sendMessageOnClick(`color-${glb}-${colorIdx}`,
+                             'color_name_switch', colorName);
+        }
+      }
+    }
+
+    // Selection highlight
+    selectionHighlight('bg-carousel-item', 'bg-selected');
+    selectionHighlight('carousel-item', 'selected');
+    selectionHighlight('color-item', 'color-selected');
+
+    // Backgrounds
+    sendMessageOnClick('ar-btn', 'bg_switch', 'AR_BG');
+    sendMessageOnClick('studio-btn', 'bg_switch', 'ShowroomStudio_BG');
+    sendMessageOnClick('city-park-btn', 'bg_switch', 'CityPark_BG');
+    sendMessageOnClick('highway-btn', 'bg_switch', 'Highway_BG');
+    sendMessageOnClick('quarry-btn', 'bg_switch', 'Outdoors_BG');
+    sendMessageOnClick('rooftop-btn', 'bg_switch', 'Rooftop_BG');
+
+    // Handle change view mode events
+    await viewer.addEventListener('changeviewmode', async (event) => {
+      hideAllCards();
+      if(event.viewModeId == ViewMode.THREE_D_MODE) {
+        // Hide AR background button
+        document.getElementById('ar-btn').style = 'display: none;';
+        // Show background selection button
+        viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
+        // Select the Studio background as default in 3D mode
+        assetState.bg = 'studio-btn';
+      }
+      if(event.viewModeId == ViewMode.AR_MODE) {
+        // Show AR background button
+        document.getElementById('ar-btn').style = 'display: all;';
+        // Hide background selection button
+        viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
+        // Set AR background as default in AR mode
+        assetState.bg = 'ar-btn';
+      }
+      // Set state for map
+      // Store selected car color, as changing car will also change the color
+      const carColor = assetState.color;
+      clickItemWithId(assetState.map);
+      if (assetState.color != carColor) {
+        // Setting the car will change the color to default. We should restore to previous selected
+        // color if it is different
+        clickItemWithId(carColor);
+      }
+      clickItemWithId(assetState.bg);
+    });
+
+    // Check if car exists in C9
+    if(selectedGlbKey in carGlbMapping) {
+      const selectedCar = carGlbMapping[selectedGlbKey];
+      assetState.map = selectedCar[0];
+      assetState.color = selectedCar[1];
+
+      // No need to call clickItemWithId here since we will call when changeviewmode is received.
+      // Native only sends changeviewmode after webview is loaded and js_state_change is sent
+    } else {
+      viewer.setTitle('Error: Car model not found');
+    }
+    console.log("SceneViewerWeb ready!");
+
+    // Send js ready event to notify the stream controller that the webpage is ready.
+    viewer.sendScriptingEvent('js_state_change', 'ready');
+
+    // ============================================
+    // Hotspot handling code
+    // ============================================
+    // TODO(b/171844679): Move this code from car.html to the branched infocard.
+    let hotspotSelected = false;
+    // Hacky way to return which element is active (what mode the app is in).
+    function getCurrentlyActiveElement() {
+      const elements = [carousel, colorPicker, bgPicker];
+      for (const element of elements) {
+        if (element.style.display !== 'none') {
+          return element;
+        }
+      }
+      return null;
+    }
+    let previousActiveElement = null;
+    viewer.addEventListener('buttonpress', async event => {
+      if (!hotspotSelected &&
+          event.buttonId !== ButtonType.RIGHT &&
+          event.buttonId !== ButtonType.LEFT) {
+        // A hotspot has been selected!
+        hotspotSelected = true;
+        // Remove the current buttonpress listener
+        viewer.removeEventListener('buttonpress', buttonPress);
+        // Set the buttons to the hotspot selection state along with the infocard.
+        viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
+        viewer.setButtonVisibility(ButtonType.RIGHT, ButtonVisibility.HIDDEN);
+        // TODO(b/171844679): Change this URL when moving the code from car.html to the
+        // branched infocard.
+        viewer.configureButton(ButtonType.LEFT,
+                               "http://127.0.0.1:8080/cloud9-staging/back_button.png",
+                               160);
+        // Hide the current active element (and store it to restore it later).
+        previousActiveElement = getCurrentlyActiveElement();
+        previousActiveElement.style = "display:none;";
+      } else if (hotspotSelected && event.buttonId === ButtonType.LEFT) {
+        // Back button pressed while a hotspot was selected.
+        hotspotSelected = false;
+        // Restore the buttonpress listener
+        viewer.addEventListener('buttonpress', buttonPress);
+        // Restore the previous state
+        viewer.setButtonVisibility(ButtonType.RIGHT, ButtonVisibility.VISIBLE);
+        viewer.configureButton(ButtonType.LEFT,
+                               "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
+                               160);
+        viewer.setBottomCardVisibility(BottomCardVisibility.EXPANDED);
+        previousActiveElement.style = 'display:all;';
+      }
+    });
+  });
+</script>
+</body>
+</html>
