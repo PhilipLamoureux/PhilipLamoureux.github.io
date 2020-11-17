@@ -222,7 +222,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V8) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V9) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
    </div>
@@ -320,29 +320,6 @@ const cars = {
     ]
   ]
 };
-
-const defaultColors = [
-          'Aegean Blue Metallic',
-          '0A2E80',
-          'Cosmic Blue Metallic',
-          '0A1722',
-          'Crystal Black Pearl',
-          '1D1D1D',
-          'Lunar Silver Metallic',
-          'A0A0A0',
-          'Modern Steel Metallic',
-          '403F3F',
-          'Molten Lava Pearl',
-          '6B2214',
-          'Platinum White Pearl',
-          'E0DDD4',
-          'Polished Metal Metallic',
-          '343737',
-          'Rallye Red',
-          '990019',
-          'Sonic Gray Pearl',
-          'C8CDD3'
-        ];
 </script>
 
 <script>
@@ -503,27 +480,10 @@ const defaultColors = [
     
     console.log("XXX 3");
 
-    let carGlbMapping = {};
-
-    // Generate random carousel content
-    const carKeys = Object.keys(cars);
-
-    let selectedCars = {};
     const file = getUrlParameter('file');
-    const selectedGlbKey = file.replace('https://storage.googleapis.com/search-ar-vehicles/','').replace('.glb', '');
+    const glb = file.replace('https://storage.googleapis.com/search-ar-vehicles/','').replace('.glb', '');
 
-    // Add car to list if it does not exits
-    if(!(selectedGlbKey in cars)) {
-      const title = getUrlParameter('title');
-      cars[selectedGlbKey] = [title, defaultColors, true];
-    }
-    selectedCars[selectedGlbKey] = cars[selectedGlbKey];
-    
-    console.log("XXX 4");
-
-    let carouselTiles = selectedCars;
-    if(getUrlParameter('carouselType') == "all")
-      carouselTiles = cars;
+    let selectedCar = cars[glb];
     
     console.log("XXX 8");
 
@@ -532,30 +492,15 @@ const defaultColors = [
       // Create carousel content from intent array
       let carouselContent = "";
       let colorContent = "";
-      for (const [glb, values] of Object.entries(carouselTiles)) {
-        const title = values[0];
-        const isCustomMap = values[2] === true;
+      {
+        const title = selectedCar[0];
 
         const buttonId = "btn-" + glb;
         const colorId = "color-" + glb;
 
-        const thumbnailUri = isCustomMap ?
-              'https://www.gstatic.com/ar/core/viewer/carousel/cloud9/XC90.png' :
-              `https://storage.googleapis.com/search-ar-vehicles/${glb}.png`;
-        
-        console.log("XXX setup Carousel for " + glb);
-
-        carouselContent += `
-         <div class="carousel-item" id="${buttonId}">
-           <img src="${thumbnailUri}" alt="${title}">
-           <div class="carousel-item-info">
-             <div class="carousel-item-title">${title}</div>
-           </div>
-         </div>`;
-
         colorContent += `<div class="color-picker-container"
                               style="display:all;" id="color-picker-${glb}">`;
-        const carColors = values[1];
+        const carColors = selectedCar[1];
         const colorCount = carColors.length / 2;
         console.log("XXX setup Carousel, colorCount is " + colorCount);
         for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
@@ -569,26 +514,16 @@ const defaultColors = [
                 </div>`;
         }
         colorContent += "</div>";
-
-        // Store mapping from GLB URL to details for initial highlight of selected car
-        carGlbMapping[glb] = [buttonId, colorId + "-0"];
       }
       document.getElementById('carousel-container').innerHTML = carouselContent;
       document.getElementById('color-pickers').innerHTML = colorContent;
       
-      console.log("XXX have set up Carousel, colorContent is " + colorContent);
+      //console.log("XXX have set up Carousel, colorContent is " + colorContent);
 
       // Set up listeners for car and color buttons
-      for (const [glb, values] of Object.entries(carouselTiles)) {
-        const title = values[0];
-        const isCustomMap = values[2] === true;
-
-        let glbUri = isCustomMap ?
-          glb :
-          `https://storage.googleapis.com/search-ar-vehicles/${glb}.glb`;
-        changeMapOnClick(glb, glbUri, title, 0);
-
-        const carColors = values[1];
+      {
+        const title = selectedCar[0];
+        const carColors = selectedCar[1];
         const colorCount = carColors.length / 2;
         for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
           const colorName =    carColors[colorIdx * 2 + 0];
@@ -659,15 +594,12 @@ const defaultColors = [
     console.log("XXX 12");
 
     // Check if car exists in C9
-    if(selectedGlbKey in carGlbMapping) {
-      const selectedCar = carGlbMapping[selectedGlbKey];
-      assetState.map = selectedCar[0];
-      assetState.color = selectedCar[1];
+    {
+      assetState.map = "btn-" + glb;
+      assetState.color = "color-" + glb + "-0";
 
       // No need to call clickItemWithId here since we will call when changeviewmode is received.
       // Native only sends changeviewmode after webview is loaded and js_state_change is sent
-    } else {
-      viewer.setTitle('Error: Car model not found');
     }
     console.log("XXX SceneViewerWeb ready!");
 
