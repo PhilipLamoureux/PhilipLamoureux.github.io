@@ -218,7 +218,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V5) Vehicle shown with options using visual effects. \n F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V6) Vehicle shown with options using visual effects. \n F SPORT model shown. Additional styles available.</div>
 </div>
 <div id="bg-picker" class="modal" style="display:none;">
   <div class="color-picker-wrapper">
@@ -230,12 +230,6 @@
       <div class="color-picker-title">Change Background</div>
       <div class="carousel-scroll">
         <div class="carousel">
-          <div class="bg-carousel-item" id="ar-btn" style="display: none;">
-            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/ar_bg.png" alt="Your space">
-            <div class="bg-carousel-item-info">
-              <div class="carousel-item-title">Your space</div>
-          </div>
-        </div>
           <div class="bg-carousel-item" id="studio-btn">
             <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/studio_bg.png" alt="Studio background">
             <div class="bg-carousel-item-info">
@@ -316,9 +310,8 @@ const cars = {
 </script>
 
 <script>
-  const usePorscheTestColors = false;
   const titlePrefix = "DEBUG: ";
-  console.log("Loading SceneViewerWeb");
+  console.log("XXX Loading SceneViewerWeb");
   var viewerReadyEventRecieved = false;
   window.addEventListener("viewerready",async () => {
     // TODO(b/165333429) should be removed when the bug is fixed
@@ -326,6 +319,8 @@ const cars = {
       return;
     }
     viewerReadyEventRecieved = true;
+    
+    console.log("XXX Received viewerready async event.");
 
     viewer = new SceneViewerWeb();
     await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
@@ -620,8 +615,8 @@ const cars = {
 //           sendMessageOnClick(`color-${glb}-${colorIdx}`,
 //                              'color_name_switch', colorName);
 //         }
-//       }
-//     }
+//      }
+    }
 
     // Selection highlight
     selectionHighlight('bg-carousel-item', 'bg-selected');
