@@ -218,7 +218,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V4) Vehicle shown with options using visual effects. \n F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V5) Vehicle shown with options using visual effects. \n F SPORT model shown. Additional styles available.</div>
 </div>
 <div id="bg-picker" class="modal" style="display:none;">
   <div class="color-picker-wrapper">
@@ -682,6 +682,14 @@ const cars = {
 
     // Send js ready event to notify the stream controller that the webpage is ready.
     viewer.sendScriptingEvent('js_state_change', 'ready');
+
+    // Initialize left and right button state
+    viewer.setButtonVisibility(ButtonType.RIGHT, ButtonVisibility.VISIBLE);
+    viewer.configureButton(ButtonType.LEFT,
+                           "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
+                           160);
+    viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
+    viewer.setBottomCardVisibility(BottomCardVisibility.EXPANDED);
 </script>
 </body>
 </html>
