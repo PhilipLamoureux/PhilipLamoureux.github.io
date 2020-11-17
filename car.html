@@ -218,7 +218,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V3) Vehicle shown with options using visual effects. \n F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V4) Vehicle shown with options using visual effects. \n F SPORT model shown. Additional styles available.</div>
 </div>
 <div id="bg-picker" class="modal" style="display:none;">
   <div class="color-picker-wrapper">
@@ -682,57 +682,6 @@ const cars = {
 
     // Send js ready event to notify the stream controller that the webpage is ready.
     viewer.sendScriptingEvent('js_state_change', 'ready');
-
-    // ============================================
-    // Hotspot handling code
-    // ============================================
-    // TODO(b/171844679): Move this code from car.html to the branched infocard.
-    let hotspotSelected = false;
-    // Hacky way to return which element is active (what mode the app is in).
-    function getCurrentlyActiveElement() {
-      const elements = [carousel, colorPicker, bgPicker];
-      for (const element of elements) {
-        if (element.style.display !== 'none') {
-          return element;
-        }
-      }
-      return null;
-    }
-    let previousActiveElement = null;
-    viewer.addEventListener('buttonpress', async event => {
-      if (!hotspotSelected &&
-          event.buttonId !== ButtonType.RIGHT &&
-          event.buttonId !== ButtonType.LEFT) {
-        // A hotspot has been selected!
-        hotspotSelected = true;
-        // Remove the current buttonpress listener
-        viewer.removeEventListener('buttonpress', buttonPress);
-        // Set the buttons to the hotspot selection state along with the infocard.
-        viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
-        viewer.setButtonVisibility(ButtonType.RIGHT, ButtonVisibility.HIDDEN);
-        // TODO(b/171844679): Change this URL when moving the code from car.html to the
-        // branched infocard.
-        viewer.configureButton(ButtonType.LEFT,
-                               "http://127.0.0.1:8080/cloud9-staging/back_button.png",
-                               160);
-        // Hide the current active element (and store it to restore it later).
-        previousActiveElement = getCurrentlyActiveElement();
-        previousActiveElement.style = "display:none;";
-      } else if (hotspotSelected && event.buttonId === ButtonType.LEFT) {
-        // Back button pressed while a hotspot was selected.
-        hotspotSelected = false;
-        // Restore the buttonpress listener
-        viewer.addEventListener('buttonpress', buttonPress);
-        // Restore the previous state
-        viewer.setButtonVisibility(ButtonType.RIGHT, ButtonVisibility.VISIBLE);
-        viewer.configureButton(ButtonType.LEFT,
-                               "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
-                               160);
-        viewer.setBottomCardVisibility(BottomCardVisibility.EXPANDED);
-        previousActiveElement.style = 'display:all;';
-      }
-    });
-  });
 </script>
 </body>
 </html>
