@@ -323,7 +323,6 @@ const cars = {
 </script>
 
 <script>
-  const titlePrefix = "DEBUG: ";
   console.log("XXX Loading SceneViewerWeb");
   var viewerReadyEventRecieved = false;
   window.addEventListener("viewerready",async () => {
@@ -366,15 +365,6 @@ const cars = {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
       } : null;
-    }
-
-    function componentToHex(c) {
-      const hex = c.toString(16);
-      return hex.length == 1 ? "0" + hex : hex;
-    }
-    // Convert an object of integer color in [0, 255] to an a hex color string
-    function rgbToHex(rgb) {
-      return componentToHex(rgb.r) + componentToHex(rgb.g) + componentToHex(rgb.b);
     }
     
     console.log("XXX 2");
@@ -441,7 +431,7 @@ const cars = {
       btn.addEventListener('click', async () => {
         viewer.sendScriptingEvent('map_switch', mapName);
         clickItemWithId("color-" + carIdx + "-" + colorIdx);
-        viewer.setTitle(titlePrefix + title);
+        viewer.setTitle(title);
         // Display different color menus per car
         hideColorsContainers();
         colorsContainer.style = 'display:all;';
@@ -449,17 +439,23 @@ const cars = {
       });
     }
     function sendMessageOnClick(elementId, type, value) {
+      console.log("XXX sendMessageOnClick 01 " + elementId + " " + type + " " + value);
       const elem = document.getElementById(elementId);
       if(!elem)
         return;
+      console.log("XXX sendMessageOnClick 02");
       elem.addEventListener('click', async () => {
+        console.log("XXX sendMessageOnClick 03 " + elementId + " " + type + " " + value);
         viewer.sendScriptingEvent(type, value);
         if(type == "color_switch") {
+          console.log("XXX sendMessageOnClick 04");
           assetState.color = elementId;
         }
         if(type == "bg_switch") {
+          console.log("XXX sendMessageOnClick 05");
           assetState.bg = elementId;
         }
+        console.log("XXX sendMessageOnClick 06");
       });
     }
     // Selection highlight
@@ -489,8 +485,7 @@ const cars = {
 
     // Setup carousel
     {
-      // Create carousel content from intent array
-      let carouselContent = "";
+      // Create color picker content
       let colorContent = "";
       {
         const title = selectedCar[0];
@@ -515,10 +510,7 @@ const cars = {
         }
         colorContent += "</div>";
       }
-      document.getElementById('carousel-container').innerHTML = carouselContent;
       document.getElementById('color-pickers').innerHTML = colorContent;
-      
-      //console.log("XXX have set up Carousel, colorContent is " + colorContent);
 
       // Set up listeners for car and color buttons
       {
