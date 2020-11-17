@@ -222,7 +222,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V6) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V7) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
    </div>
@@ -575,6 +575,8 @@ const defaultColors = [
       }
       document.getElementById('carousel-container').innerHTML = carouselContent;
       document.getElementById('color-pickers').innerHTML = colorContent;
+      
+      console.log("XXX have set up Carousel, colorContent is " + colorContent);
 
       // Set up listeners for car and color buttons
       for (const [glb, values] of Object.entries(carouselTiles)) {
