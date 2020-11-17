@@ -222,7 +222,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V5) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V6) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
    </div>
@@ -557,7 +557,10 @@ const defaultColors = [
                               style="display: none;" id="color-picker-${glb}">`;
         const carColors = values[1];
         const colorCount = carColors.length / 2;
+        console.log("XXX setup Carousel, colorCount is " + colorCount);
         for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
+          console.log("XXX setup Carousel, color is " + carColors[colorIdx * 2 + 1] + " color name is " + carColors[colorIdx * 2]);
+          
           colorContent += `
                 <div class="color-item" id="${colorId}-${colorIdx}">
                 <div class="color-button"
