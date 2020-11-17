@@ -222,7 +222,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V3) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V4) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
    </div>
@@ -379,7 +379,7 @@ const porscheTestColors = [
 <script>
   const usePorscheTestColors = false;
   const titlePrefix = "DEBUG: ";
-  console.log("Loading SceneViewerWeb");
+  console.log("XXX Loading SceneViewerWeb");
   var viewerReadyEventRecieved = false;
   window.addEventListener("viewerready",async () => {
     // TODO(b/165333429) should be removed when the bug is fixed
@@ -387,6 +387,8 @@ const porscheTestColors = [
       return;
     }
     viewerReadyEventRecieved = true;
+    
+    console.log("XXX 1");
 
     viewer = new SceneViewerWeb();
     await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
@@ -444,6 +446,8 @@ const porscheTestColors = [
         b: correctComponent(rgb.b)
       };
     }
+    
+    console.log("XXX 2");
 
     // Default asset state
     let assetState = {
@@ -543,6 +547,8 @@ const porscheTestColors = [
         });
       }
     }
+    
+    console.log("XXX 3");
 
     let carGlbMapping = {};
 
@@ -559,6 +565,8 @@ const porscheTestColors = [
       cars[selectedGlbKey] = [title, defaultColors, true];
     }
     selectedCars[selectedGlbKey] = cars[selectedGlbKey];
+    
+    console.log("XXX 4");
 
     // Add all Tier-2 cars to carousel
     const tier2Cars = ['Volvo_XC40_Recharge', 'Volvo_XC40', 'Volvo_XC60', 'Volvo_XC90',
@@ -568,6 +576,8 @@ const porscheTestColors = [
       if(tier2Car in cars)
         selectedCars[tier2Car] = cars[tier2Car];
     });
+    
+    console.log("XXX 5");
 
     if(getUrlParameter('carouselType') == "random") {
       let insertTriesLeft = 50;
@@ -581,6 +591,8 @@ const porscheTestColors = [
         selectedCars[selectedKey] = cars[selectedKey];
       }
     }
+    
+    console.log("XXX 6");
 
     let carouselTiles = selectedCars;
     if(getUrlParameter('carouselType') == "all")
@@ -592,6 +604,8 @@ const porscheTestColors = [
         values[1] = porscheTestColors;
       }
     }
+    
+    console.log("XXX 7");
 
     // Add corrected colors
     for (const [glb, values] of Object.entries(carouselTiles)) {
@@ -611,6 +625,8 @@ const porscheTestColors = [
       }
       values[1] = correctedColors;
     }
+    
+    console.log("XXX 8");
 
     // Setup carousel
     {
@@ -682,12 +698,16 @@ const porscheTestColors = [
                              'color_name_switch', colorName);
         }
       }
+      
+      console.log("XXX 9");
     }
 
     // Selection highlight
     selectionHighlight('bg-carousel-item', 'bg-selected');
     selectionHighlight('carousel-item', 'selected');
     selectionHighlight('color-item', 'color-selected');
+    
+    console.log("XXX 10");
 
     // Backgrounds
     sendMessageOnClick('ar-btn', 'bg_switch', 'AR_BG');
@@ -697,6 +717,8 @@ const porscheTestColors = [
     sendMessageOnClick('quarry-btn', 'bg_switch', 'Outdoors_BG');
     sendMessageOnClick('rooftop-btn', 'bg_switch', 'Rooftop_BG');
 
+    console.log("XXX 11");
+    
     // Handle change view mode events
     await viewer.addEventListener('changeviewmode', async (event) => {
       hideAllCards();
@@ -727,6 +749,8 @@ const porscheTestColors = [
       }
       clickItemWithId(assetState.bg);
     });
+    
+    console.log("XXX 12");
 
     // Check if car exists in C9
     if(selectedGlbKey in carGlbMapping) {
@@ -739,7 +763,7 @@ const porscheTestColors = [
     } else {
       viewer.setTitle('Error: Car model not found');
     }
-    console.log("SceneViewerWeb ready!");
+    console.log("XXX SceneViewerWeb ready!");
 
     // Send js ready event to notify the stream controller that the webpage is ready.
     viewer.sendScriptingEvent('js_state_change', 'ready');
@@ -751,6 +775,7 @@ const porscheTestColors = [
     let hotspotSelected = false;
     // Hacky way to return which element is active (what mode the app is in).
     function getCurrentlyActiveElement() {
+      console.log("XXX HOT 01");
       const elements = [carousel, colorPicker, bgPicker];
       for (const element of elements) {
         if (element.style.display !== 'none') {
@@ -761,9 +786,11 @@ const porscheTestColors = [
     }
     let previousActiveElement = null;
     viewer.addEventListener('buttonpress', async event => {
+      console.log("XXX HOT 02");
       if (!hotspotSelected &&
           event.buttonId !== ButtonType.RIGHT &&
           event.buttonId !== ButtonType.LEFT) {
+        console.log("XXX HOT 03");
         // A hotspot has been selected!
         hotspotSelected = true;
         // Remove the current buttonpress listener
@@ -780,6 +807,7 @@ const porscheTestColors = [
         previousActiveElement = getCurrentlyActiveElement();
         previousActiveElement.style = "display:none;";
       } else if (hotspotSelected && event.buttonId === ButtonType.LEFT) {
+        console.log("XXX HOT 04");
         // Back button pressed while a hotspot was selected.
         hotspotSelected = false;
         // Restore the buttonpress listener
