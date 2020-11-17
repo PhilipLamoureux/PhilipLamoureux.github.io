@@ -343,41 +343,9 @@ const defaultColors = [
           'Sonic Gray Pearl',
           'C8CDD3'
         ];
-
-const porscheTestColors = [
-      'Neptune Blue (Porsche)',
-      '2A455A',
-      'Crayon (Porsche)',
-      'C4C4BE',
-      'Guards Red (Porsche)',
-      'EE2E26',
-      'Guards Red (Google)',
-      '9C001D',
-      'Lava Orange (Porsche)',
-      'FF3D00',
-      'Lava Orange (Google)',
-      'C92627',
-      'Dolomite Silver Metallic (Porsche)',
-      'EBF2FA',
-      'Dolomite Silver Metallic (Google)',
-      'A4A59E',
-      'Mamba Green Metallic (Porsche)',
-      '658B32',
-      'Mamba Green Metallic (Google)',
-      '185F1A',
-      'Papaya Metallic (Porsche)',
-      'F14F00',
-      'Papaya Metallic (Google)',
-      'C63800',
-      'Gentian Blue Metallic (Porsche)',
-      '354B86',
-      'Gentian Blue Metallic (Google)',
-      '0C265C',
-    ];
 </script>
 
 <script>
-  const usePorscheTestColors = false;
   const titlePrefix = "DEBUG: ";
   console.log("XXX Loading SceneViewerWeb");
   var viewerReadyEventRecieved = false;
@@ -568,42 +536,9 @@ const porscheTestColors = [
     
     console.log("XXX 4");
 
-    // Add all Tier-2 cars to carousel
-    const tier2Cars = ['Volvo_XC40_Recharge', 'Volvo_XC40', 'Volvo_XC60', 'Volvo_XC90',
-                       'Porsche_Taycan_TurboS', 'Porsche_Panamera_4SEHybrid', 'Porsche_Macan_GTS',
-                       'Porsche_911_CarreraS', 'Porsche_Cayenne_TurboSEHybrid'];
-    tier2Cars.forEach((tier2Car) => {
-      if(tier2Car in cars)
-        selectedCars[tier2Car] = cars[tier2Car];
-    });
-    
-    console.log("XXX 5");
-
-    if(getUrlParameter('carouselType') == "random") {
-      let insertTriesLeft = 50;
-      while(Object.keys(selectedCars).length < 5) {
-        if(--insertTriesLeft <= 0)
-          break;
-
-        const selectedKey = carKeys[Math.floor(Math.random() * carKeys.length)];
-        if(selectedKey in selectedCars)
-          continue;
-        selectedCars[selectedKey] = cars[selectedKey];
-      }
-    }
-    
-    console.log("XXX 6");
-
     let carouselTiles = selectedCars;
     if(getUrlParameter('carouselType') == "all")
       carouselTiles = cars;
-
-    // Overwrite car colors with Porsche test colors if they should be used
-    if(usePorscheTestColors) {
-      for (const [glb, values] of Object.entries(carouselTiles)) {
-        values[1] = porscheTestColors;
-      }
-    }
     
     console.log("XXX 7");
 
