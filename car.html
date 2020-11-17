@@ -222,7 +222,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V4) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V5) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
    </div>
@@ -399,21 +399,6 @@ const defaultColors = [
     function rgbToHex(rgb) {
       return componentToHex(rgb.r) + componentToHex(rgb.g) + componentToHex(rgb.b);
     }
-
-    // Correct color with linear model for all channels (source model is at go/c9-oem-colors)
-    function correctComponent(c) {
-      const m = 1.306816975;
-      const b = 0.05658936024;
-      return Math.trunc(Math.min(Math.max(c / 255 * m + b, 0.0), 1.0) * 255);
-    }
-    // Correct color with linear model
-    function correctColor(rgb) {
-      return {
-        r: correctComponent(rgb.r),
-        g: correctComponent(rgb.g),
-        b: correctComponent(rgb.b)
-      };
-    }
     
     console.log("XXX 2");
 
@@ -540,27 +525,6 @@ const defaultColors = [
     if(getUrlParameter('carouselType') == "all")
       carouselTiles = cars;
     
-    console.log("XXX 7");
-
-    // Add corrected colors
-    for (const [glb, values] of Object.entries(carouselTiles)) {
-      let correctedColors = [];
-      for(let i = 0; i < values[1].length; i += 2) {
-        const name  = values[1][i + 0];
-        const color = values[1][i + 1];
-
-        correctedColors.push(name);
-        correctedColors.push(color);
-
-        const rgb = hexToRgb(color);
-        if(rgb != null) {
-          correctedColors.push(name + " (Corrected)");
-          correctedColors.push(rgbToHex(correctColor(rgb)));
-        }
-      }
-      values[1] = correctedColors;
-    }
-    
     console.log("XXX 8");
 
     // Setup carousel
@@ -578,6 +542,8 @@ const defaultColors = [
         const thumbnailUri = isCustomMap ?
               'https://www.gstatic.com/ar/core/viewer/carousel/cloud9/XC90.png' :
               `https://storage.googleapis.com/search-ar-vehicles/${glb}.png`;
+        
+        console.log("XXX setup Carousel for " + glb);
 
         carouselContent += `
          <div class="carousel-item" id="${buttonId}">
