@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V24) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V25) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -298,7 +298,7 @@
 </div>
 <script>
 const cars = {
-  'HchdKUvTStirvyHw7HDPBvN': [
+  'UX': [
     '2020 Lexus UX',
     [
       'Atomic Silver',
@@ -480,9 +480,8 @@ const cars = {
       }
     }
 
-    const file = getUrlParameter('file');
-    const glb = file.replace('https://storage.googleapis.com/search-ar-vehicles/','').replace('.glb', '');
-    let selectedCar = cars[glb];
+    const model = getUrlParameter('model');
+    let selectedCar = cars[model];
 
     {
       // Create color picker content
@@ -490,11 +489,11 @@ const cars = {
       {
         const title = selectedCar[0];
 
-        const buttonId = "btn-" + glb;
-        const colorId = "color-" + glb;
+        const buttonId = "btn-" + model;
+        const colorId = "color-" + model;
 
         colorContent += `<div class="color-picker-container"
-                              style="display:all;" id="color-picker-${glb}">`;
+                              style="display:all;" id="color-picker-${model}">`;
         const carColors = selectedCar[1];
         const colorCount = carColors.length / 2;
         for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {          
@@ -521,7 +520,7 @@ const cars = {
             console.error("Failed to parse color", carColors[colorIdx * 2 + 1]);
             continue;
           }
-          setCarPaintOnClick(`color-${glb}-${colorIdx}`, rgb.r, rgb.g, rgb.b);
+          setCarPaintOnClick(`color-${model}-${colorIdx}`, rgb.r, rgb.g, rgb.b);
         }
       }
     }
@@ -572,15 +571,11 @@ const cars = {
     
     viewer.setLink("https://www.lexus.com/models/UX");
 
-    assetState.map = "btn-" + glb;
-    assetState.color = "color-" + glb + "-0";
+    assetState.map = "btn-" + model;
+    assetState.color = "color-" + model + "-0";
 
     // Send js ready event to notify the stream controller that the webpage is ready.
     viewer.sendScriptingEvent('js_state_change', 'ready');
-
-//     viewer.addEventListener('buttonpress', async event => {
-//       console.log("XXX Why do we need this??");
-//     });
   });
 </script>
 </body>
