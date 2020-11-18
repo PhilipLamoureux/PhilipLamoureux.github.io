@@ -165,7 +165,7 @@
 </head>
 <body>
 <div class="disclaimer-frame" style="display:all;" id="carousel">
-  <div class="disclaimer" id="disclaimer-01">(V25) Vehicle shown with options using visual effects.</div>
+  <div class="disclaimer" id="disclaimer-01">(V26) Vehicle shown with options using visual effects.</div>
   <div class="disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
 </div>
 <div id="bg-picker" class="modal" style="display:none;">
@@ -365,8 +365,7 @@ const cars = {
       btn.addEventListener('click', async () => {
         viewer.sendScriptingEvent('map_switch', mapName);
         clickItemWithId("color-" + carIdx + "-" + colorIdx);
-        // XXX Remove this?
-        //viewer.setTitle(title);
+        viewer.setTitle(title);
         // Display different color menus per car
         hideColorsContainers();
         colorsContainer.style = 'display:all;';
