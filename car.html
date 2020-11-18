@@ -222,7 +222,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-title" id="test">(V10) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-title" id="test">(V11) Vehicle shown with options using visual effects. // F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
    </div>
@@ -458,6 +458,20 @@ const cars = {
         console.log("XXX sendMessageOnClick 06");
       });
     }
+    
+    function setCarPaintOnClick(elementId, r, g, b) {
+      console.log("XXX setCarPaintOnClick 01 " + elementId + " " + r + " " + g + " " + b);
+      const elem = document.getElementById(elementId);
+      if(!elem)
+        return;
+      console.log("XXX setCarPaintOnClick 02");
+      elem.addEventListener('click', async () => {
+        console.log("XXX setCarPaintOnClick 03 " + r + " " + g + " " + b);
+        viewer.setCarPaint(r / 255.0, g / 255.0, b / 255.0);
+        console.log("XXX setCarPaintClick 06");
+      });
+    }
+    
     // Selection highlight
     function selectionHighlight(element_id, selected_class) {
       var maps = document.getElementsByClassName(element_id);
@@ -524,11 +538,12 @@ const cars = {
             console.error("Failed to parse color", carColors[colorIdx * 2 + 1]);
             continue;
           }
-          sendMessageOnClick(`color-${glb}-${colorIdx}`,
-                             'color_switch',
-                             `(R=${rgb.r / 255},G=${rgb.g / 255},B=${rgb.b / 255},A=1)`);
-          sendMessageOnClick(`color-${glb}-${colorIdx}`,
-                             'color_name_switch', colorName);
+          setCarPaintOnClick(`color-${glb}-${colorIdx}`, rgb.r, rgb.g, rgb.b);
+//           sendMessageOnClick(`color-${glb}-${colorIdx}`,
+//                              'color_switch',
+//                              `(R=${rgb.r / 255},G=${rgb.g / 255},B=${rgb.b / 255},A=1)`);
+//           sendMessageOnClick(`color-${glb}-${colorIdx}`,
+//                              'color_name_switch', colorName);
         }
       }
       
