@@ -135,6 +135,15 @@
         text-transform: uppercase;
         margin: 16px 0 16px 16px;
     }
+    .carousel-disclaimer {
+        font-family: Roboto,Arial,sans-serif;
+        font-weight: medium;
+        font-size: 9px;
+        line-height: 12px;
+        letter-spacing: 0.6px;
+        color: #000;
+        margin: 12px 0 12px 12px;
+    }
     .carousel-scroll {
         width: 100%;
         height: 100%;
@@ -223,8 +232,9 @@
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
   <div class="carousel-title" id="web-link">https://www.lexus.com/models/IS</div>
-  <div class="carousel-title" id="disclaimer-01">(V11) Vehicle shown with options using visual effects.</div>
-  <div class="carousel-title" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-disclaimer" id="version">(V12)</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
    </div>
@@ -434,6 +444,7 @@ const cars = {
         viewer.sendScriptingEvent('map_switch', mapName);
         clickItemWithId("color-" + carIdx + "-" + colorIdx);
         viewer.setTitle(title);
+        viewer.setLink("https://www.lexus.com/models/IS");
         // Display different color menus per car
         hideColorsContainers();
         colorsContainer.style = 'display:all;';
