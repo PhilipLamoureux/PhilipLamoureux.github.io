@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V20) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V21) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -406,9 +406,6 @@ const cars = {
           [{button: ButtonType.RIGHT, element: colorPicker},
            {button: ButtonType.LEFT, element: bgPicker}];
     async function buttonPress(event) {
-      if (hotspotSelected) {
-        return;
-      }
       hideAllCards();
       for (const buttonToElement of buttonsToElements) {
         if (buttonToElement.button === event.buttonId) {
@@ -574,71 +571,15 @@ const cars = {
     
     viewer.setLink("https://www.lexus.com/models/UX");
 
-    // Check if car exists in C9
-    {
-      assetState.map = "btn-" + glb;
-      assetState.color = "color-" + glb + "-0";
-
-      // No need to call clickItemWithId here since we will call when changeviewmode is received.
-      // Native only sends changeviewmode after webview is loaded and js_state_change is sent
-    }
+    assetState.map = "btn-" + glb;
+    assetState.color = "color-" + glb + "-0";
 
     // Send js ready event to notify the stream controller that the webpage is ready.
     viewer.sendScriptingEvent('js_state_change', 'ready');
 
-    // ============================================
-    // Hotspot handling code
-    // ============================================
-    // TODO(b/171844679): Move this code from car.html to the branched infocard.
-    let hotspotSelected = false;
-    // Hacky way to return which element is active (what mode the app is in).
-//     function getCurrentlyActiveElement() {
-//       console.log("XXX HOT 01");
-//       const elements = [carousel, colorPicker, bgPicker];
-//       for (const element of elements) {
-//         if (element.style.display !== 'none') {
-//           return element;
-//         }
-//       }
-//       return null;
-//     }
-    let previousActiveElement = null;
-    viewer.addEventListener('buttonpress', async event => {
-      console.log("XXX HOT 02");
-//       if (!hotspotSelected &&
-//           event.buttonId !== ButtonType.RIGHT &&
-//           event.buttonId !== ButtonType.LEFT) {
-//         console.log("XXX HOT 03 !!!");
-//         // A hotspot has been selected!
-//         hotspotSelected = true;
-//         // Remove the current buttonpress listener
-//         viewer.removeEventListener('buttonpress', buttonPress);
-//         // Set the buttons to the hotspot selection state along with the infocard.
-//         viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
-//         viewer.setButtonVisibility(ButtonType.RIGHT, ButtonVisibility.HIDDEN);
-//         // TODO(b/171844679): Change this URL when moving the code from car.html to the
-//         // branched infocard.
-//         viewer.configureButton(ButtonType.LEFT,
-//                                "http://127.0.0.1:8080/cloud9-staging/back_button.png",
-//                                160);
-//         // Hide the current active element (and store it to restore it later).
-//         previousActiveElement = getCurrentlyActiveElement();
-//         previousActiveElement.style = "display:none;";
-//       } else if (hotspotSelected && event.buttonId === ButtonType.LEFT) {
-//         console.log("XXX HOT 04 !!!");
-//         // Back button pressed while a hotspot was selected.
-//         hotspotSelected = false;
-//         // Restore the buttonpress listener
-//         viewer.addEventListener('buttonpress', buttonPress);
-//         // Restore the previous state
-//         viewer.setButtonVisibility(ButtonType.RIGHT, ButtonVisibility.VISIBLE);
-//         viewer.configureButton(ButtonType.LEFT,
-//                                "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
-//                                160);
-//         viewer.setBottomCardVisibility(BottomCardVisibility.EXPANDED);
-//         previousActiveElement.style = 'display:all;';
-//       }
-    });
+//     viewer.addEventListener('buttonpress', async event => {
+//       console.log("XXX Why do we need this??");
+//     });
   });
 </script>
 </body>
