@@ -27,6 +27,17 @@
         left: 8px;
         overflow-y: auto;
     }
+    .model_header{
+      font-size: 22px;
+      color: #202124;
+      margin-left: 20px;
+      word-break: break-word;
+      line-height: 1.33;
+      max-height: 2.66em;
+      margin-top: 3px;
+      overflow: hidden;
+      font-weight: medium;
+    }
     .color-name {
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -50,6 +61,13 @@
       line-height: 18px;
       margin-left: 66px;
       padding: 20px 0 10px 0;
+    }
+    .color-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px 12px 16px;
+      font-size: 14px;
+      line-height: 28px;
     }
     .modal {
       overflow: hidden;
@@ -81,6 +99,15 @@
       margin-right: 16px;
       background: linear-gradient(180deg,rgba(34,34,34,0.64) 10%,rgba(69,69,69,0.33) 44%,rgba(209,209,209,0.35) 57%,rgba(253,253,253,0.6) 67%,rgba(193,193,193,0.11) 83%,rgba(31,31,31,0.38) 94%);
     }
+    .hdri-button{
+      border: 1px solid #ccc;
+      border-radius: 24px;
+      height: 24px;
+      width: 24px;
+      min-width: 24px;
+      margin-right: 16px;
+      background: #fff;
+    }
     .carousel {
       display: flex;
       flex-wrap: nowrap;
@@ -89,7 +116,7 @@
       height: 100%;
       padding: 2px 0 0 16px;
     }
-    .disclaimer-frame {
+    .carousel-frame {
         overflow: hidden;
         transition: height .3s ease-in-out;
         border-radius: 8px;
@@ -98,7 +125,17 @@
         padding: 0 0 16px 0;
         margin: 4px;
     }
-    .disclaimer {
+    .carousel-title {
+        font-family: Roboto,Arial,sans-serif;
+        font-weight: medium;
+        font-size: 11px;
+        line-height: 16px;
+        letter-spacing: 0.8px;
+        color: #000;
+        text-transform: uppercase;
+        margin: 16px 0 16px 16px;
+    }
+    .carousel-disclaimer {
         font-family: Roboto,Arial,sans-serif;
         font-weight: medium;
         font-size: 12px;
@@ -108,6 +145,29 @@
     .carousel-scroll {
         width: 100%;
         height: 100%;
+    }
+    .carousel-item>img {
+        max-width: 108px;
+        max-height: 82px;
+        width: auto;
+        height: auto;
+        margin: 12px auto;
+    }
+    .carousel-item {
+        position: relative;
+        background-color: #fff;
+        border-radius: 8px;
+        height: 132px;
+        width: 132px;
+        margin: 0 4px 0 4px;
+        padding: 0 12px 10px 12px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        box-sizing: border-box;
+        box-shadow: 0 1px 3px 1px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
     }
     .bg-carousel-item>img {
         max-width: 135px;
@@ -150,6 +210,10 @@
     .color-selected {
         background-color: #f5f9ff;
     }
+    .carousel-item-info {
+        color: #7f868c;
+        font-size: 12px;
+    }
     .carousel-item-title {
         font-family: Roboto,Arial,sans-serif;
         color: #000;
@@ -164,9 +228,12 @@
   </style>
 </head>
 <body>
-<div class="disclaimer-frame" style="display:all;" id="carousel">
-  <div class="disclaimer" id="disclaimer-01">(V26) Vehicle shown with options using visual effects.</div>
-  <div class="disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
+<div class="carousel-frame" style="display:all;" id="carousel">
+  <div class="carousel-disclaimer" id="disclaimer-01">(V21) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-scroll">
+    <div class="carousel" id="carousel-container"></div>
+   </div>
 </div>
 <div id="bg-picker" class="modal" style="display:none;">
   <div class="color-picker-wrapper">
@@ -420,6 +487,8 @@ const cars = {
       // Create color picker content
       let colorContent = "";
       {
+        const title = selectedCar[0];
+
         const buttonId = "btn-" + glb;
         const colorId = "color-" + glb;
 
@@ -441,6 +510,7 @@ const cars = {
 
       // Set up listeners for car and color buttons
       {
+        const title = selectedCar[0];
         const carColors = selectedCar[1];
         const colorCount = carColors.length / 2;
         for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
@@ -457,6 +527,7 @@ const cars = {
 
     // Selection highlight
     selectionHighlight('bg-carousel-item', 'bg-selected');
+    selectionHighlight('carousel-item', 'selected');
     selectionHighlight('color-item', 'color-selected');
 
     // Backgrounds
@@ -505,6 +576,10 @@ const cars = {
 
     // Send js ready event to notify the stream controller that the webpage is ready.
     viewer.sendScriptingEvent('js_state_change', 'ready');
+
+//     viewer.addEventListener('buttonpress', async event => {
+//       console.log("XXX Why do we need this??");
+//     });
   });
 </script>
 </body>
