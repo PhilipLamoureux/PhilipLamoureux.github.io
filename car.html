@@ -365,7 +365,8 @@ const cars = {
       btn.addEventListener('click', async () => {
         viewer.sendScriptingEvent('map_switch', mapName);
         clickItemWithId("color-" + carIdx + "-" + colorIdx);
-        viewer.setTitle(title);
+        // XXX Remove this?
+        //viewer.setTitle(title);
         // Display different color menus per car
         hideColorsContainers();
         colorsContainer.style = 'display:all;';
@@ -420,8 +421,6 @@ const cars = {
       // Create color picker content
       let colorContent = "";
       {
-        const title = selectedCar[0];
-
         const buttonId = "btn-" + glb;
         const colorId = "color-" + glb;
 
@@ -443,7 +442,6 @@ const cars = {
 
       // Set up listeners for car and color buttons
       {
-        const title = selectedCar[0];
         const carColors = selectedCar[1];
         const colorCount = carColors.length / 2;
         for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
