@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V22) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V23) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -432,7 +432,7 @@ const cars = {
       btn.addEventListener('click', async () => {
         viewer.sendScriptingEvent('map_switch', mapName);
         clickItemWithId("color-" + carIdx + "-" + colorIdx);
-        viewer.setTitle("v7 " + title);
+        viewer.setTitle("title set from car.html");
         // Display different color menus per car
         hideColorsContainers();
         colorsContainer.style = 'display:all;';
