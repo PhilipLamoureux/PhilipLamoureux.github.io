@@ -139,10 +139,7 @@
         font-family: Roboto,Arial,sans-serif;
         font-weight: medium;
         font-size: 9px;
-        line-height: 12px;
-        letter-spacing: 0.6px;
         color: #000;
-        margin: 12px 0 12px 12px;
     }
     .carousel-scroll {
         width: 100%;
@@ -444,7 +441,6 @@ const cars = {
         viewer.sendScriptingEvent('map_switch', mapName);
         clickItemWithId("color-" + carIdx + "-" + colorIdx);
         viewer.setTitle(title);
-        viewer.setLink("https://www.lexus.com/models/IS");
         // Display different color menus per car
         hideColorsContainers();
         colorsContainer.style = 'display:all;';
@@ -612,6 +608,8 @@ const cars = {
     });
     
     console.log("XXX 12");
+    
+    viewer.setLink("https://www.lexus.com/models/UX");
 
     // Check if car exists in C9
     {
