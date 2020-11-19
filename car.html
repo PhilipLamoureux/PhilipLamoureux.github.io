@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V4) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V5) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -350,8 +350,12 @@ const cars = {
                                  160);
     
     const backgrounds = viewer.getSupportedBackgrounds();
-    if (backgrounds && backgrounds.length) {
-      console.log("XXX backgrounds FOUND.");
+    if (backgrounds) {
+      if (backgrounds.length) {
+        console.log("XXX backgrounds && backgrounds.length");
+      } else {
+        console.log("XXX backgrounds but length=0");
+      }
     } else {
       console.log("XXX backgrounds NOT found.");
     }
