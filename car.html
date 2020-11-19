@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V2) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V3) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -435,7 +435,7 @@ const cars = {
       if(!elem)
         return;
       elem.addEventListener('click', async () => {
-        viewer.sendScriptingEvent(type, value);
+        viewer.sendScriptingEvent("bg_switch", value);
         assetState.bg = elementId;
       });
     }
