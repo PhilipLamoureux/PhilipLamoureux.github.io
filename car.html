@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V1) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -332,6 +332,7 @@ const cars = {
 
 <script>
   console.log("XXX Loading SceneViewerWeb");
+  console.log("XXX location.search is " + location.search);
   var viewerReadyEventRecieved = false;
   window.addEventListener("viewerready",async () => {
     // TODO(b/165333429) should be removed when the bug is fixed
@@ -375,21 +376,19 @@ const cars = {
 
     // Default asset state
     let assetState = {
+      map: '',
       color: '',
       bg: 'studio-btn'
     };
-    
     const carousel           = document.getElementById('carousel');
     const colorPicker        = document.getElementById('color-picker');
     const bgPicker           = document.getElementById('bg-picker');
     const carColorContainers = document.getElementsByClassName("color-picker-container");
-    
     function hideAllCards() {
         bgPicker.style = 'display:none;';
         colorPicker.style = 'display:none;';
         carousel.style = 'display:all;';
     }
-    
     // Close buttons
     const closeButtons = document.querySelectorAll('.modal-close-button,.color-picker-title');
     for (var i = 0; i < closeButtons.length; i++) {
@@ -398,18 +397,15 @@ const cars = {
         hideAllCards();
       });
     }
-    
     function hideColorsContainers() {
       for (var i = 0; i < carColorContainers.length; i++) {
         carColorContainers[i].style = 'display:none;';
       }
     }
-    
     // Interactions
     const buttonsToElements =
           [{button: ButtonType.RIGHT, element: colorPicker},
            {button: ButtonType.LEFT, element: bgPicker}];
-    
     async function buttonPress(event) {
       hideAllCards();
       for (const buttonToElement of buttonsToElements) {
@@ -420,16 +416,30 @@ const cars = {
         }
       }
     }
-    
     viewer.addEventListener('buttonpress', buttonPress);
-    
     function clickItemWithId(elementId) {
       const elem = document.getElementById(elementId);
       if(!elem)
         return;
       elem.click();
     }
-    
+    function changeMapOnClick(carIdx, mapName, title, colorIdx) {
+      const btnId = "btn-" + carIdx;
+
+      const btn = document.getElementById(btnId);
+      const colorsContainer = document.getElementById("color-picker-" + carIdx);
+      if(!btn || !colorsContainer)
+        return;
+      btn.addEventListener('click', async () => {
+        viewer.sendScriptingEvent('map_switch', mapName);
+        clickItemWithId("color-" + carIdx + "-" + colorIdx);
+        viewer.setTitle("title set from car.html");
+        // Display different color menus per car
+        hideColorsContainers();
+        colorsContainer.style = 'display:all;';
+        assetState.map = btnId;
+      });
+    }
     function sendMessageOnClick(elementId, type, value) {
       const elem = document.getElementById(elementId);
       if(!elem)
@@ -498,7 +508,7 @@ const cars = {
       }
       document.getElementById('color-pickers').innerHTML = colorContent;
 
-      // Set up listeners for color buttons
+      // Set up listeners for car and color buttons
       {
         const title = selectedCar[0];
         const carColors = selectedCar[1];
@@ -547,8 +557,10 @@ const cars = {
         // Set AR background as default in AR mode
         assetState.bg = 'ar-btn';
       }
-      
+      // Set state for map
+      // Store selected car color, as changing car will also change the color
       const carColor = assetState.color;
+      clickItemWithId(assetState.map);
       if (assetState.color != carColor) {
         // Setting the car will change the color to default. We should restore to previous selected
         // color if it is different
@@ -559,6 +571,7 @@ const cars = {
     
     viewer.setLink("https://www.lexus.com/models/UX");
 
+    assetState.map = "btn-" + model;
     assetState.color = "color-" + model + "-0";
 
     // Send js ready event to notify the stream controller that the webpage is ready.
