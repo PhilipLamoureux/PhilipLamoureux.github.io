@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V14) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V15) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -355,13 +355,13 @@ const cars = {
     function showLeftButtonIfBackgroundsAvailable() {
       console.log("XXX in showLeftButtonIfBackgroundsAvailable");
       const backgrounds = await viewer.getSupportedBackgrounds();
-      if (backgrounds && backgrounds.length) {
-        console.log("XXX backgrounds and length);
+//      if (backgrounds && backgrounds.length) {
+//        console.log("XXX backgrounds and length);
 //         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
-      } else {
-        console.log("XXX !backgrounds or !length);
+//      } else {
+//        console.log("XXX !backgrounds or !length);
 //         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
-      }
+//      }
     }
     showLeftButtonIfBackgroundsAvailable();
     
