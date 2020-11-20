@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V11) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V12) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -352,15 +352,15 @@ const cars = {
 
     // Configure the background picker button if backgrounds are available (ie,
     // streaming mode is active).
-    function showLeftButtonIfBackgroundsAvailable() {
-      const backgrounds = await viewer.getSupportedBackgrounds();
-      if (backgrounds && backgrounds.length > 0) {
-        viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
-      } else {
-        viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
-      }
-    }
-    showLeftButtonIfBackgroundsAvailable();
+//     function showLeftButtonIfBackgroundsAvailable() {
+//       const backgrounds = await viewer.getSupportedBackgrounds();
+//       if (backgrounds && backgrounds.length > 0) {
+//         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
+//       } else {
+//         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
+//       }
+//     }
+//     showLeftButtonIfBackgroundsAvailable();
     
     //Get URL param
     function getUrlParameter(name) {
@@ -537,7 +537,7 @@ const cars = {
         // Hide AR background button
         document.getElementById('ar-btn').style = 'display: none;';
         // Show background selection button
-        showLeftButtonIfBackgroundsAvailable();
+        //showLeftButtonIfBackgroundsAvailable();
         // Select the Studio background as default in 3D mode
         assetState.bg = 'studio-btn';
       }
