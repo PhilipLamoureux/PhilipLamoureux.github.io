@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V9) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V10) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -349,20 +349,19 @@ const cars = {
     await viewer.configureButton(ButtonType.LEFT,
                                  "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
                                  160);
-    
+
     // Configure the background picker button if backgrounds are available (ie,
     // streaming mode is active).
-    const backgrounds = await viewer.getSupportedBackgrounds();
-    if (!backgrounds || backgrounds.length == 0) {
-      console.log("XXX Hiding left button");
-      await viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
+    function showLeftButtonIfBackgroundsAvailable() {
+      const backgrounds = await viewer.getSupportedBackgrounds();
+      if (backgrounds && backgrounds.length > 0) {
+        await viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
+      } else {
+        await viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
+      }
     }
-    else {
-            console.log("XXX SHOWING left button");
-    }
+    showLeftButtonIfBackgroundsAvailable();
     
-    await viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
-
     //Get URL param
     function getUrlParameter(name) {
       name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -538,8 +537,7 @@ const cars = {
         // Hide AR background button
         document.getElementById('ar-btn').style = 'display: none;';
         // Show background selection button
-        console.log("XXX Setting left button visible b/c 3D mode");
-        viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
+        showLeftButtonIfBackgroundsAvailable();
         // Select the Studio background as default in 3D mode
         assetState.bg = 'studio-btn';
       }
