@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V8) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V9) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -355,11 +355,13 @@ const cars = {
     const backgrounds = await viewer.getSupportedBackgrounds();
     if (!backgrounds || backgrounds.length == 0) {
       console.log("XXX Hiding left button");
-      viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
+      await viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
     }
     else {
             console.log("XXX SHOWING left button");
     }
+    
+    await viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
 
     //Get URL param
     function getUrlParameter(name) {
@@ -536,6 +538,7 @@ const cars = {
         // Hide AR background button
         document.getElementById('ar-btn').style = 'display: none;';
         // Show background selection button
+        console.log("XXX Setting left button visible b/c 3D mode");
         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
         // Select the Studio background as default in 3D mode
         assetState.bg = 'studio-btn';
