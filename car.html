@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V20) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V21) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -348,20 +348,17 @@ const cars = {
                                  "https://www.gstatic.com/search-ar-dev/colour-picker-button.png",
                                  160);
 
-//     await viewer.configureButton(ButtonType.LEFT,
-//                                  "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
-//                                  160);
-
     // Configure the background picker button if backgrounds are available (ie,
     // streaming mode is active).
-//     const backgrounds = await viewer.getSupportedBackgrounds();
-//     if (backgrounds && backgrounds.length) {
-//       console.log("XXX setting button visible in changeviewmode");
-//       viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
-//     } else {
-//       console.log("XXX setting button HIDDEN in changeviewmode");
-//       viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
-//     }
+     const backgrounds = await viewer.getSupportedBackgrounds();
+     if (backgrounds && backgrounds.length) {
+       console.log("XXX setting button visible in changeviewmode");
+       await viewer.configureButton(ButtonType.LEFT,
+                                    "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
+                                    160);
+    } else {
+      console.log("XXX setting button HIDDEN in changeviewmode");
+    }
     
     //Get URL param
     function getUrlParameter(name) {
