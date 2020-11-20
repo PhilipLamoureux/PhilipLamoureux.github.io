@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V16) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V17) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -353,11 +353,6 @@ const cars = {
     // Configure the background picker button if backgrounds are available (ie,
     // streaming mode is active).
     const backgrounds = await viewer.getSupportedBackgrounds();
-    if (backgrounds && backgrounds.length) {
-      viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
-    } else {
-      viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
-    }
     
     //Get URL param
     function getUrlParameter(name) {
@@ -536,6 +531,8 @@ const cars = {
         // Show background selection button
         if (backgrounds && backgrounds.length) {
           viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
+        } else {
+          viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
         }
         // Select the Studio background as default in 3D mode
         assetState.bg = 'studio-btn';
