@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V12) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V13) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -352,15 +352,16 @@ const cars = {
 
     // Configure the background picker button if backgrounds are available (ie,
     // streaming mode is active).
-//     function showLeftButtonIfBackgroundsAvailable() {
+    function showLeftButtonIfBackgroundsAvailable() {
+      console.log("XXX in showLeftButtonIfBackgroundsAvailable");
 //       const backgrounds = await viewer.getSupportedBackgrounds();
 //       if (backgrounds && backgrounds.length > 0) {
 //         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
 //       } else {
 //         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
 //       }
-//     }
-//     showLeftButtonIfBackgroundsAvailable();
+    }
+    showLeftButtonIfBackgroundsAvailable();
     
     //Get URL param
     function getUrlParameter(name) {
