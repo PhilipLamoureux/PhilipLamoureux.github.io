@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V22) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V23) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -507,13 +507,17 @@ const cars = {
             continue;
           }
           setCarPaintOnClick(`color-${model}-${colorIdx}`, rgb.r, rgb.g, rgb.b);
+          
+          // Set the first paint color in the list.
+          if (colorIdx == 0) {
+            viewer.setCarPaint(rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0);
+          }
         }
       }
     }
 
     // Selection highlight
     selectionHighlight('bg-carousel-item', 'bg-selected');
-    //selectionHighlight('carousel-item', 'selected');
     selectionHighlight('color-item', 'color-selected');
 
     // Backgrounds
