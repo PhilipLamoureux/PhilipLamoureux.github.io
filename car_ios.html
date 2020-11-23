@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V1) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V2) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -340,11 +340,11 @@ const cars = {
     }
     viewerReadyEventRecieved = true;
 
-//     viewer = new SceneViewerWeb();
-//     await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
-//     await viewer.configureButton(ButtonType.RIGHT,
-//                                  "https://www.gstatic.com/search-ar-dev/colour-picker-button.png",
-//                                  160);
+    viewer = new SceneViewerWeb();
+    await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
+    await viewer.configureButton(ButtonType.RIGHT,
+                                 "https://www.gstatic.com/search-ar-dev/colour-picker-button.png",
+                                 160);
 
 //     // Configure the background picker button if backgrounds are available (ie,
 //     // streaming mode is active).
