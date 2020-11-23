@@ -1,17 +1,4 @@
 <!DOCTYPE html>
 <html>
-  <body>test test test 123</body>
-  <script>
-  console.log("XXX starting up car_ios");
-  var viewerReadyEventRecieved = false;
-  window.addEventListener("viewerready",async () => {
-    // TODO(b/165333429) should be removed when the bug is fixed
-    if (viewerReadyEventRecieved) {
-      return;
-    }
-    viewerReadyEventRecieved = true;
-    viewer = new SceneViewerWeb();
-    viewer.sendScriptingEvent('js_state_change', 'ready');
-  });
-</script>
+  <body>test test test</body>
 </html>
