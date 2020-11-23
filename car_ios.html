@@ -169,40 +169,7 @@
         box-sizing: border-box;
         box-shadow: 0 1px 3px 1px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
     }
-    .bg-carousel-item>img {
-        max-width: 135px;
-        max-height: 100px;
-        width: auto;
-        height: auto;
-        margin: 0;
-    }
-    .bg-carousel-item {
-        position: relative;
-        background-color: #fff;
-        border-radius: 8px;
-        height: 132px;
-        width: 132px;
-        margin: 0 4px 0 4px;
-        padding: 0 0 10px 0;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        overflow: hidden;
-        box-sizing: border-box;
-        box-shadow: 0 1px 3px 1px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
-    }
-    .bg-carousel-item-info {
-        color: #7f868c;
-        font-size: 12px;
-        padding: 0 0 0 12px;
-    }
     .selected {
-        border-bottom: 4px solid #1a73e8;
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
-    }
-    .bg-selected {
         border-bottom: 4px solid #1a73e8;
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
@@ -231,59 +198,6 @@
 <div class="carousel-frame" style="display:all;" id="carousel">
   <div class="carousel-disclaimer" id="disclaimer-01">(V3) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
-  <div class="carousel-scroll">
-    <div class="carousel" id="carousel-container"></div>
-   </div>
-</div>
-<div id="bg-picker" class="modal" style="display:none;">
-  <div class="color-picker-wrapper">
-      <div class="modal-close-button" id="close-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" focusable="false" class="materialdesignWizIconSvgsSvgIcon">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path>
-        </svg>
-      </div>
-      <div class="color-picker-title">Change Background</div>
-      <div class="carousel-scroll">
-        <div class="carousel">
-          <div class="bg-carousel-item" id="ar-btn" style="display: none;">
-            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/ar_bg.png" alt="Your space">
-            <div class="bg-carousel-item-info">
-              <div class="carousel-item-title">Your space</div>
-          </div>
-        </div>
-          <div class="bg-carousel-item" id="studio-btn">
-            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/studio_bg.png" alt="Studio background">
-            <div class="bg-carousel-item-info">
-              <div class="carousel-item-title">Studio</div>
-            </div>
-          </div>
-          <div class="bg-carousel-item" id="city-park-btn">
-            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/city_park_bg.png" alt="City Park background">
-            <div class="bg-carousel-item-info">
-              <div class="carousel-item-title">City Park</div>
-            </div>
-          </div>
-          <div class="bg-carousel-item" id="highway-btn">
-            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/highway_bg.png" alt="Scenic Highway background">
-            <div class="bg-carousel-item-info">
-              <div class="carousel-item-title">Scenic Highway</div>
-            </div>
-          </div>
-          <div class="bg-carousel-item" id="quarry-btn">
-            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/outdoors_bg.png" alt="Quarry Sunset background">
-            <div class="bg-carousel-item-info">
-              <div class="carousel-item-title">Quarry Sunset</div>
-            </div>
-          </div>
-          <div class="bg-carousel-item" id="rooftop-btn">
-            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/rooftop_bg.png" alt="Rooftop Garage background">
-            <div class="bg-carousel-item-info">
-              <div class="carousel-item-title" id="test">Rooftop Garage</div>
-            </div>
-          </div>
-        </div>
-    </div>
-  </div>
 </div>
 <div id="color-picker" hidden class="modal" style="display:none;">
   <div class="color-picker-wrapper">
@@ -374,18 +288,14 @@ const cars = {
     let assetState = {
       map: '',
       color: '',
-      bg: 'studio-btn'
     };
     
-    const carousel           = document.getElementById('carousel');
     const colorPicker        = document.getElementById('color-picker');
-    const bgPicker           = document.getElementById('bg-picker');
     const carColorContainers = document.getElementsByClassName("color-picker-container");
     function hideAllCards() {
-        bgPicker.style = 'display:none;';
         colorPicker.style = 'display:none;';
-        carousel.style = 'display:all;';
     }
+    
     // Close buttons
     const closeButtons = document.querySelectorAll('.modal-close-button,.color-picker-title');
     for (var i = 0; i < closeButtons.length; i++) {
@@ -394,15 +304,16 @@ const cars = {
         hideAllCards();
       });
     }
+    
     function hideColorsContainers() {
       for (var i = 0; i < carColorContainers.length; i++) {
         carColorContainers[i].style = 'display:none;';
       }
     }
+    
     // Interactions
     const buttonsToElements =
-          [{button: ButtonType.RIGHT, element: colorPicker},
-           {button: ButtonType.LEFT, element: bgPicker}];
+          [{button: ButtonType.RIGHT, element: colorPicker}];
     async function buttonPress(event) {
       hideAllCards();
       for (const buttonToElement of buttonsToElements) {
@@ -419,16 +330,6 @@ const cars = {
       if(!elem)
         return;
       elem.click();
-    }
-    
-    function sendBackgroundOnClick(elementId, value) {
-      const elem = document.getElementById(elementId);
-      if(!elem)
-        return;
-      elem.addEventListener('click', async () => {
-        viewer.sendScriptingEvent("bg_switch", value);
-        assetState.bg = elementId;
-      });
     }
     
     function setCarPaintOnClick(elementId, r, g, b) {
@@ -509,16 +410,7 @@ const cars = {
     }
 
     // Selection highlight
-    selectionHighlight('bg-carousel-item', 'bg-selected');
     selectionHighlight('color-item', 'color-selected');
-
-    // Backgrounds
-    sendBackgroundOnClick('ar-btn', 'AR_BG');
-    sendBackgroundOnClick('studio-btn', 'ShowroomStudio_BG');
-    sendBackgroundOnClick('city-park-btn', 'CityPark_BG');
-    sendBackgroundOnClick('highway-btn', 'Highway_BG');
-    sendBackgroundOnClick('quarry-btn', 'Outdoors_BG');
-    sendBackgroundOnClick('rooftop-btn', 'Rooftop_BG');
     
     // Handle change view mode events
     await viewer.addEventListener('changeviewmode', async (event) => {
@@ -528,16 +420,12 @@ const cars = {
         document.getElementById('ar-btn').style = 'display: none;';
         // Show background selection button
         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
-        // Select the Studio background as default in 3D mode
-        assetState.bg = 'studio-btn';
       }
       if(event.viewModeId == ViewMode.AR_MODE) {
         // Show AR background button
         document.getElementById('ar-btn').style = 'display: all;';
         // Hide background selection button
         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
-        // Set AR background as default in AR mode
-        assetState.bg = 'ar-btn';
       }
       // Set state for map
       // Store selected car color, as changing car will also change the color
@@ -548,7 +436,6 @@ const cars = {
         // color if it is different
         clickItemWithId(carColor);
       }
-      clickItemWithId(assetState.bg);
     });
     
     viewer.setLink("https://www.lexus.com/models/UX");
