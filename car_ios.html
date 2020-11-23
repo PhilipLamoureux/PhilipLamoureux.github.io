@@ -229,7 +229,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(V2) Vehicle shown with options using visual effects.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(V3) Vehicle shown with options using visual effects.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -345,228 +345,219 @@ const cars = {
     await viewer.configureButton(ButtonType.RIGHT,
                                  "https://www.gstatic.com/search-ar-dev/colour-picker-button.png",
                                  160);
-
-//     // Configure the background picker button if backgrounds are available (ie,
-//     // streaming mode is active).
-//      const backgrounds = await viewer.getSupportedBackgrounds();
-//      if (backgrounds && backgrounds.length) {
-//        console.log("XXX setting button visible in changeviewmode");
-//        await viewer.configureButton(ButtonType.LEFT,
-//                                     "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
-//                                     160);
-//     }
     
-//     //Get URL param
-//     function getUrlParameter(name) {
-//       name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-//       var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-//       var results = regex.exec(location.search);
-//       return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-//     };
+    //Get URL param
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
 
-//     // Convert a hex color string to an object of colors in [0, 255]
-//     function hexToRgb(hex) {
-//       // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-//       var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-//       hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-//         return r + r + g + g + b + b;
-//       });
+    // Convert a hex color string to an object of colors in [0, 255]
+    function hexToRgb(hex) {
+      // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+      var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+      });
 
-//       var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-//       return result ? {
-//         r: parseInt(result[1], 16),
-//         g: parseInt(result[2], 16),
-//         b: parseInt(result[3], 16)
-//       } : null;
-//     }
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
 
-//     // Default asset state
-//     let assetState = {
-//       map: '',
-//       color: '',
-//       bg: 'studio-btn'
-//     };
-//     const carousel           = document.getElementById('carousel');
-//     const colorPicker        = document.getElementById('color-picker');
-//     const bgPicker           = document.getElementById('bg-picker');
-//     const carColorContainers = document.getElementsByClassName("color-picker-container");
-//     function hideAllCards() {
-//         bgPicker.style = 'display:none;';
-//         colorPicker.style = 'display:none;';
-//         carousel.style = 'display:all;';
-//     }
-//     // Close buttons
-//     const closeButtons = document.querySelectorAll('.modal-close-button,.color-picker-title');
-//     for (var i = 0; i < closeButtons.length; i++) {
-//       closeButtons[i].addEventListener('click', function() {
-//         viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
-//         hideAllCards();
-//       });
-//     }
-//     function hideColorsContainers() {
-//       for (var i = 0; i < carColorContainers.length; i++) {
-//         carColorContainers[i].style = 'display:none;';
-//       }
-//     }
-//     // Interactions
-//     const buttonsToElements =
-//           [{button: ButtonType.RIGHT, element: colorPicker},
-//            {button: ButtonType.LEFT, element: bgPicker}];
-//     async function buttonPress(event) {
-//       hideAllCards();
-//       for (const buttonToElement of buttonsToElements) {
-//         if (buttonToElement.button === event.buttonId) {
-//           await viewer.setBottomCardVisibility(BottomCardVisibility.EXPANDED);
-//           buttonToElement.element.style = 'display:all;';
-//           carousel.style = 'display:none;';
-//         }
-//       }
-//     }
-//     viewer.addEventListener('buttonpress', buttonPress);
-//     function clickItemWithId(elementId) {
-//       const elem = document.getElementById(elementId);
-//       if(!elem)
-//         return;
-//       elem.click();
-//     }
+    // Default asset state
+    let assetState = {
+      map: '',
+      color: '',
+      bg: 'studio-btn'
+    };
     
-//     function sendBackgroundOnClick(elementId, value) {
-//       const elem = document.getElementById(elementId);
-//       if(!elem)
-//         return;
-//       elem.addEventListener('click', async () => {
-//         viewer.sendScriptingEvent("bg_switch", value);
-//         assetState.bg = elementId;
-//       });
-//     }
+    const carousel           = document.getElementById('carousel');
+    const colorPicker        = document.getElementById('color-picker');
+    const bgPicker           = document.getElementById('bg-picker');
+    const carColorContainers = document.getElementsByClassName("color-picker-container");
+    function hideAllCards() {
+        bgPicker.style = 'display:none;';
+        colorPicker.style = 'display:none;';
+        carousel.style = 'display:all;';
+    }
+    // Close buttons
+    const closeButtons = document.querySelectorAll('.modal-close-button,.color-picker-title');
+    for (var i = 0; i < closeButtons.length; i++) {
+      closeButtons[i].addEventListener('click', function() {
+        viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
+        hideAllCards();
+      });
+    }
+    function hideColorsContainers() {
+      for (var i = 0; i < carColorContainers.length; i++) {
+        carColorContainers[i].style = 'display:none;';
+      }
+    }
+    // Interactions
+    const buttonsToElements =
+          [{button: ButtonType.RIGHT, element: colorPicker},
+           {button: ButtonType.LEFT, element: bgPicker}];
+    async function buttonPress(event) {
+      hideAllCards();
+      for (const buttonToElement of buttonsToElements) {
+        if (buttonToElement.button === event.buttonId) {
+          await viewer.setBottomCardVisibility(BottomCardVisibility.EXPANDED);
+          buttonToElement.element.style = 'display:all;';
+          carousel.style = 'display:none;';
+        }
+      }
+    }
+    viewer.addEventListener('buttonpress', buttonPress);
+    function clickItemWithId(elementId) {
+      const elem = document.getElementById(elementId);
+      if(!elem)
+        return;
+      elem.click();
+    }
     
-//     function setCarPaintOnClick(elementId, r, g, b) {
-//       const elem = document.getElementById(elementId);
-//       if(!elem)
-//         return;
-//       elem.addEventListener('click', async () => {
-//         assetState.color = elementId;
-//         viewer.setCarPaint(r / 255.0, g / 255.0, b / 255.0);
-//       });
-//     }
+    function sendBackgroundOnClick(elementId, value) {
+      const elem = document.getElementById(elementId);
+      if(!elem)
+        return;
+      elem.addEventListener('click', async () => {
+        viewer.sendScriptingEvent("bg_switch", value);
+        assetState.bg = elementId;
+      });
+    }
     
-//     // Selection highlight
-//     function selectionHighlight(element_id, selected_class) {
-//       var maps = document.getElementsByClassName(element_id);
-//       if(!maps)
-//         return;
-//       for (var i = 0; i < maps.length; i++) {
-//         maps[i].addEventListener('click', function() {
-//           var current = document.getElementsByClassName(selected_class);
-//           if (current.length > 0) {
-//            current[0].className = current[0].className.replace(' ' + selected_class, '');
-//           }
-//           this.className += ' ' + selected_class;
-//         });
-//       }
-//     }
+    function setCarPaintOnClick(elementId, r, g, b) {
+      const elem = document.getElementById(elementId);
+      if(!elem)
+        return;
+      elem.addEventListener('click', async () => {
+        assetState.color = elementId;
+        viewer.setCarPaint(r / 255.0, g / 255.0, b / 255.0);
+      });
+    }
+    
+    // Selection highlight
+    function selectionHighlight(element_id, selected_class) {
+      var maps = document.getElementsByClassName(element_id);
+      if(!maps)
+        return;
+      for (var i = 0; i < maps.length; i++) {
+        maps[i].addEventListener('click', function() {
+          var current = document.getElementsByClassName(selected_class);
+          if (current.length > 0) {
+           current[0].className = current[0].className.replace(' ' + selected_class, '');
+          }
+          this.className += ' ' + selected_class;
+        });
+      }
+    }
 
-//     const model = getUrlParameter('model');
-//     let selectedCar = cars[model];
+    const model = getUrlParameter('model');
+    let selectedCar = cars[model];
 
-//     {
-//       // Create color picker content
-//       let colorContent = "";
-//       {
-//         const title = selectedCar[0];
+    {
+      // Create color picker content
+      let colorContent = "";
+      {
+        const title = selectedCar[0];
 
-//         const buttonId = "btn-" + model;
-//         const colorId = "color-" + model;
+        const buttonId = "btn-" + model;
+        const colorId = "color-" + model;
 
-//         colorContent += `<div class="color-picker-container"
-//                               style="display:all;" id="color-picker-${model}">`;
-//         const carColors = selectedCar[1];
-//         const colorCount = carColors.length / 2;
-//         for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {          
-//           colorContent += `
-//                 <div class="color-item" id="${colorId}-${colorIdx}">
-//                 <div class="color-button"
-//                      style="background-color:#${carColors[colorIdx * 2 + 1]};"></div>
-//                   <span class="color-name">${carColors[colorIdx * 2]}</span>
-//                 </div>`;
-//         }
-//         colorContent += "</div>";
-//       }
-//       document.getElementById('color-pickers').innerHTML = colorContent;
+        colorContent += `<div class="color-picker-container"
+                              style="display:all;" id="color-picker-${model}">`;
+        const carColors = selectedCar[1];
+        const colorCount = carColors.length / 2;
+        for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {          
+          colorContent += `
+                <div class="color-item" id="${colorId}-${colorIdx}">
+                <div class="color-button"
+                     style="background-color:#${carColors[colorIdx * 2 + 1]};"></div>
+                  <span class="color-name">${carColors[colorIdx * 2]}</span>
+                </div>`;
+        }
+        colorContent += "</div>";
+      }
+      document.getElementById('color-pickers').innerHTML = colorContent;
 
-//       // Set up listeners for car and color buttons
-//       {
-//         const title = selectedCar[0];
-//         const carColors = selectedCar[1];
-//         const colorCount = carColors.length / 2;
-//         for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
-//           const colorName =    carColors[colorIdx * 2 + 0];
-//           const rgb = hexToRgb(carColors[colorIdx * 2 + 1]);
-//           if(rgb == null) {
-//             console.error("Failed to parse color", carColors[colorIdx * 2 + 1]);
-//             continue;
-//           }
-//           setCarPaintOnClick(`color-${model}-${colorIdx}`, rgb.r, rgb.g, rgb.b);
+      // Set up listeners for car and color buttons
+      {
+        const title = selectedCar[0];
+        const carColors = selectedCar[1];
+        const colorCount = carColors.length / 2;
+        for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
+          const colorName =    carColors[colorIdx * 2 + 0];
+          const rgb = hexToRgb(carColors[colorIdx * 2 + 1]);
+          if(rgb == null) {
+            console.error("Failed to parse color", carColors[colorIdx * 2 + 1]);
+            continue;
+          }
+          setCarPaintOnClick(`color-${model}-${colorIdx}`, rgb.r, rgb.g, rgb.b);
           
-//           // Set the first paint color in the list.
-//           if (colorIdx == 0) {
-//             assetState.color = `color-${model}-${colorIdx}`;
-//             viewer.setCarPaint(rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0);
-//           }
-//         }
-//       }
-//     }
+          // Set the first paint color in the list.
+          if (colorIdx == 0) {
+            assetState.color = `color-${model}-${colorIdx}`;
+            viewer.setCarPaint(rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0);
+          }
+        }
+      }
+    }
 
-//     // Selection highlight
-//     selectionHighlight('bg-carousel-item', 'bg-selected');
-//     selectionHighlight('color-item', 'color-selected');
+    // Selection highlight
+    selectionHighlight('bg-carousel-item', 'bg-selected');
+    selectionHighlight('color-item', 'color-selected');
 
-//     // Backgrounds
-//     sendBackgroundOnClick('ar-btn', 'AR_BG');
-//     sendBackgroundOnClick('studio-btn', 'ShowroomStudio_BG');
-//     sendBackgroundOnClick('city-park-btn', 'CityPark_BG');
-//     sendBackgroundOnClick('highway-btn', 'Highway_BG');
-//     sendBackgroundOnClick('quarry-btn', 'Outdoors_BG');
-//     sendBackgroundOnClick('rooftop-btn', 'Rooftop_BG');
+    // Backgrounds
+    sendBackgroundOnClick('ar-btn', 'AR_BG');
+    sendBackgroundOnClick('studio-btn', 'ShowroomStudio_BG');
+    sendBackgroundOnClick('city-park-btn', 'CityPark_BG');
+    sendBackgroundOnClick('highway-btn', 'Highway_BG');
+    sendBackgroundOnClick('quarry-btn', 'Outdoors_BG');
+    sendBackgroundOnClick('rooftop-btn', 'Rooftop_BG');
     
-//     // Handle change view mode events
-//     await viewer.addEventListener('changeviewmode', async (event) => {
-//       hideAllCards();
-//       if(event.viewModeId == ViewMode.THREE_D_MODE) {
-//         // Hide AR background button
-//         document.getElementById('ar-btn').style = 'display: none;';
-//         // Show background selection button
-//         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
-//         // Select the Studio background as default in 3D mode
-//         assetState.bg = 'studio-btn';
-//       }
-//       if(event.viewModeId == ViewMode.AR_MODE) {
-//         // Show AR background button
-//         document.getElementById('ar-btn').style = 'display: all;';
-//         // Hide background selection button
-//         viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
-//         // Set AR background as default in AR mode
-//         assetState.bg = 'ar-btn';
-//       }
-//       // Set state for map
-//       // Store selected car color, as changing car will also change the color
-//       const carColor = assetState.color;
-//       clickItemWithId(assetState.map);
-//       if (assetState.color != carColor) {
-//         // Setting the car will change the color to default. We should restore to previous selected
-//         // color if it is different
-//         clickItemWithId(carColor);
-//       }
-//       clickItemWithId(assetState.bg);
-//     });
+    // Handle change view mode events
+    await viewer.addEventListener('changeviewmode', async (event) => {
+      hideAllCards();
+      if(event.viewModeId == ViewMode.THREE_D_MODE) {
+        // Hide AR background button
+        document.getElementById('ar-btn').style = 'display: none;';
+        // Show background selection button
+        viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.VISIBLE);
+        // Select the Studio background as default in 3D mode
+        assetState.bg = 'studio-btn';
+      }
+      if(event.viewModeId == ViewMode.AR_MODE) {
+        // Show AR background button
+        document.getElementById('ar-btn').style = 'display: all;';
+        // Hide background selection button
+        viewer.setButtonVisibility(ButtonType.LEFT, ButtonVisibility.HIDDEN);
+        // Set AR background as default in AR mode
+        assetState.bg = 'ar-btn';
+      }
+      // Set state for map
+      // Store selected car color, as changing car will also change the color
+      const carColor = assetState.color;
+      clickItemWithId(assetState.map);
+      if (assetState.color != carColor) {
+        // Setting the car will change the color to default. We should restore to previous selected
+        // color if it is different
+        clickItemWithId(carColor);
+      }
+      clickItemWithId(assetState.bg);
+    });
     
-//     viewer.setLink("https://www.lexus.com/models/UX");
+    viewer.setLink("https://www.lexus.com/models/UX");
 
-//     assetState.map = "btn-" + model;
-//     assetState.color = "color-" + model + "-0";
+    assetState.map = "btn-" + model;
+    assetState.color = "color-" + model + "-0";
 
-//     // Send js ready event to notify the stream controller that the webpage is ready.
-//     viewer.sendScriptingEvent('js_state_change', 'ready');
+    // Send js ready event to notify the stream controller that the webpage is ready.
+    viewer.sendScriptingEvent('js_state_change', 'ready');
   });
 </script>
 </body>
