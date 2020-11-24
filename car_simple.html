@@ -18,20 +18,30 @@
     }
   </style>
   <body>
-    <div class="disclaimer">(V04) Vehicle shown with options using visual effects.</div>
+    <div class="disclaimer">(V05) Vehicle shown with options using visual effects.</div>
     <div class="disclaimer">F SPORT model shown. Additional styles available.</div>
     <script>
-      console.log("XXX Loading SceneViewerWeb 04");
-      
-      viewer = new SceneViewerWeb();
-
-      console.log("XXX Setting peeking");
-      viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
-
-      console.log("XXX Set peeking");
-
-      // Send js ready event to notify the stream controller that the webpage is ready.
-      viewer.sendScriptingEvent('js_state_change', 'ready');
+      console.log("XXX Loading SceneViewerWeb 05");
+      var viewerReadyEventRecieved = false;
+      window.addEventListener("viewerready",async () => {
+        console.log("XXX viewerready received");
+        if (viewerReadyEventRecieved) {
+          console.log("XXX ... multiple times");
+          return ;
+        }
+        console.log("XXX ... for the first time.");
+        viewerReadyEventRecieved = true;
+        
+        viewer = new SceneViewerWeb();
+        console.log("XXX ... created sv web");
+        
+        console.log("XXX Setting peeking");
+        await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
+        console.log("XXX Set peeking");
+        
+//         // Send js ready event to notify the stream controller that the webpage is ready.
+//         viewer.sendScriptingEvent('js_state_change', 'ready');
+      });
     </script>
   </body>
 </html>
