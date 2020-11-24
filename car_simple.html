@@ -1,4 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <body>test test test 123</body>
+  <style>
+    body {
+      font-family: 'Google Sans',Arial,sans-serif;
+      margin: 0;
+      display: block;
+    }
+    div{
+      display: block;
+    }
+    .disclaimer {
+        font-family: Roboto,Arial,sans-serif;
+        font-weight: medium;
+        font-size: 12px;
+        color: #7f868c;
+        margin: 8px 16px;
+    }
+  </style>
+  <body>
+    <div class="disclaimer">(V01) Vehicle shown with options using visual effects.</div>
+    <div class="disclaimer">F SPORT model shown. Additional styles available.</div>
+    <script>
+      console.log("XXX Loading SceneViewerWeb");
+      var viewerReadyEventRecieved = false;
+      window.addEventListener("viewerready",async () => {
+        // TODO(b/165333429) should be removed when the bug is fixed
+        if (viewerReadyEventRecieved) {
+          console.log("XXX viewerready event called multiple times!!");
+          return;
+        }
+        viewerReadyEventRecieved = true;
+
+        viewer = new SceneViewerWeb();
+
+        console.log("Setting peeking");
+        await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
+
+        console.log("Set peeking");
+
+        // Send js ready event to notify the stream controller that the webpage is ready.
+        viewer.sendScriptingEvent('js_state_change', 'ready');
+      });
+    </script>
+  </body>
 </html>
