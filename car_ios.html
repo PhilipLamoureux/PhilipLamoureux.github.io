@@ -135,7 +135,7 @@
 </head>
 <body>
 <div class="disclaimer-frame" style="display:all;" id="disclaimer">
-  <div class="disclaimer" id="disclaimer-01">(V8) Vehicle shown with options using visual effects.</div>
+  <div class="disclaimer" id="disclaimer-01">(V9) Vehicle shown with options using visual effects.</div>
   <div class="disclaimer" id="disclaimer-02">F SPORT model shown. Additional styles available.</div>
 </div>
 <div id="color-picker" hidden class="modal" style="display:none;">
@@ -184,7 +184,13 @@ const cars = {
 </script>
 
 <script>
-//   console.log("XXX Loading SceneViewerWeb");
+  console.log("XXX Loading SceneViewerWeb");
+  
+  var vCarouselFrame = document.getElementsByClassName("carousel-frame");
+
+  for(var i = 0; i < vNavimg.length; i++) {
+    vCarouselFrame[i].style.height = "60px";
+  }
 //   var viewerReadyEventRecieved = false;
 //   window.addEventListener("viewerready",async () => {
 //     // TODO(b/165333429) should be removed when the bug is fixed
