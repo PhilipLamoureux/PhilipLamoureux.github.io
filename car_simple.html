@@ -22,27 +22,16 @@
     <div class="disclaimer">F SPORT model shown. Additional styles available.</div>
     <script>
       console.log("XXX Loading SceneViewerWeb 02");
-      var viewerReadyEventRecieved = false;
-      window.addEventListener("viewerready",async () => {
-        // TODO(b/165333429) should be removed when the bug is fixed
-        if (viewerReadyEventRecieved) {
-          console.log("XXX viewerready event called multiple times!!");
-          return;
-        }
-        
-        console.log("XXX viewerready");
-        viewerReadyEventRecieved = true;
+      
+      viewer = new SceneViewerWeb();
 
-        viewer = new SceneViewerWeb();
+      console.log("XXX Setting peeking");
+      await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
 
-        console.log("XXX Setting peeking");
-        await viewer.setBottomCardVisibility(BottomCardVisibility.PEEKING);
+      console.log("XXX Set peeking");
 
-        console.log("XXX Set peeking");
-
-        // Send js ready event to notify the stream controller that the webpage is ready.
-        viewer.sendScriptingEvent('js_state_change', 'ready');
-      });
+      // Send js ready event to notify the stream controller that the webpage is ready.
+      viewer.sendScriptingEvent('js_state_change', 'ready');
     </script>
   </body>
 </html>
