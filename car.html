@@ -243,12 +243,6 @@
       <div class="color-picker-title">Change Background</div>
       <div class="carousel-scroll">
         <div class="carousel">
-          <div class="bg-carousel-item" id="ar-btn" style="display: none;">
-            <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/ar_bg.png" alt="Your space">
-            <div class="bg-carousel-item-info">
-              <div class="carousel-item-title">Your space</div>
-          </div>
-        </div>
           <div class="bg-carousel-item" id="studio-btn">
             <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/studio_bg.png" alt="Studio background">
             <div class="bg-carousel-item-info">
@@ -276,7 +270,7 @@
           <div class="bg-carousel-item" id="rooftop-btn">
             <img src="https://www.gstatic.com/ar/core/viewer/carousel/cloud9/rooftop_bg.png" alt="Rooftop Garage background">
             <div class="bg-carousel-item-info">
-              <div class="carousel-item-title" id="test">Rooftop Garage</div>
+              <div class="carousel-item-title">Rooftop Garage</div>
             </div>
           </div>
         </div>
@@ -329,10 +323,8 @@ const cars = {
 </script>
 
 <script>
-  console.log("XXX Loading SceneViewerWeb");
   var viewerReadyEventRecieved = false;
   window.addEventListener("viewerready",async () => {
-    // TODO(b/165333429) should be removed when the bug is fixed
     if (viewerReadyEventRecieved) {
       return;
     }
@@ -348,7 +340,6 @@ const cars = {
     // streaming mode is active).
      const backgrounds = await viewer.getSupportedBackgrounds();
      if (backgrounds && backgrounds.length) {
-       console.log("XXX setting button visible in changeviewmode");
        await viewer.configureButton(ButtonType.LEFT,
                                     "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
                                     160);
