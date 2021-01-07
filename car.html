@@ -227,7 +227,7 @@
 </head>
 <body>
 <div class="carousel-frame" style="display:all;" id="carousel">
-  <div class="carousel-disclaimer" id="disclaimer-01">(github version) F SPORT model shown. Additional styles available.</div>
+  <div class="carousel-disclaimer" id="disclaimer-01">(github) F SPORT model shown. Additional styles available.</div>
   <div class="carousel-disclaimer" id="disclaimer-02">Vehicle shown with options using visual effects.</div>
   <div class="carousel-scroll">
     <div class="carousel" id="carousel-container"></div>
@@ -293,6 +293,8 @@ const cars = {
   'IS': [
     '2021 Lexus IS',
     [
+      'Ultrasonic Blue Mica 2.0',
+      '2835BF',
       'Ultra White',
       'F5F4F5',
       'Iridium',
@@ -306,9 +308,7 @@ const cars = {
       'Infrared',
       '961820',
       'Grecian Water',
-      '1B6DC7',
-      'Ultrasonic Blue Mica 2.0',
-      '2835BF'
+      '1B6DC7'
     ]
   ]
 };
@@ -336,7 +336,7 @@ const cars = {
                                     "https://www.gstatic.com/ar/core/viewer/carousel/cloud9/bkg-button.png",
                                     160);
     }
-    
+
     //Get URL param
     function getUrlParameter(name) {
       name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -410,7 +410,7 @@ const cars = {
         return;
       elem.click();
     }
-    
+
     function sendBackgroundOnClick(elementId, value) {
       const elem = document.getElementById(elementId);
       if(!elem)
@@ -420,17 +420,18 @@ const cars = {
         assetState.bg = elementId;
       });
     }
-    
-    function setCarPaintOnClick(elementId, r, g, b) {
+
+    function setCarPaintOnClick(elementId, r, g, b, colorName) {
       const elem = document.getElementById(elementId);
       if(!elem)
         return;
       elem.addEventListener('click', async () => {
         assetState.color = elementId;
         viewer.setCarPaint(r / 255.0, g / 255.0, b / 255.0);
+        viewer.sendScriptingEvent('color_name_switch', colorName);
       });
     }
-    
+
     // Selection highlight
     function selectionHighlight(element_id, selected_class) {
       var maps = document.getElementsByClassName(element_id);
@@ -463,7 +464,7 @@ const cars = {
                               style="display:all;" id="color-picker-${model}">`;
         const carColors = selectedCar[1];
         const colorCount = carColors.length / 2;
-        for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {          
+        for(let colorIdx = 0; colorIdx < colorCount; colorIdx += 1) {
           colorContent += `
                 <div class="color-item" id="${colorId}-${colorIdx}">
                 <div class="color-button"
@@ -487,8 +488,8 @@ const cars = {
             console.error("Failed to parse color", carColors[colorIdx * 2 + 1]);
             continue;
           }
-          setCarPaintOnClick(`color-${model}-${colorIdx}`, rgb.r, rgb.g, rgb.b);
-          
+          setCarPaintOnClick(`color-${model}-${colorIdx}`, rgb.r, rgb.g, rgb.b, colorName);
+
           // Set the first paint color in the list.
           if (colorIdx == 0) {
             assetState.color = `color-${model}-${colorIdx}`;
@@ -509,7 +510,7 @@ const cars = {
     sendBackgroundOnClick('highway-btn', 'Highway_BG');
     sendBackgroundOnClick('quarry-btn', 'Outdoors_BG');
     sendBackgroundOnClick('rooftop-btn', 'Rooftop_BG');
-    
+
     // Handle change view mode events
     await viewer.addEventListener('changeviewmode', async (event) => {
       hideAllCards();
@@ -540,8 +541,8 @@ const cars = {
       }
       clickItemWithId(assetState.bg);
     });
-    
-    viewer.setLink("https://www.lexus.com/models/IS");
+
+    viewer.setLink("https://ad.doubleclick.net/ddm/clk/486097335;291396327;w?https://www.lexus.com/models/IS?utm_source=google&utm_medium=YouTube&utm_campaign=Model%20IS%20AR&utm_content=cloud9");
 
     assetState.map = "btn-" + model;
     assetState.color = "color-" + model + "-0";
